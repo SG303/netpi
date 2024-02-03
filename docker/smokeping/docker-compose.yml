@@ -3,6 +3,7 @@ services:
   smokeping:
     image: lscr.io/linuxserver/smokeping:latest
     container_name: smokeping
+    hostname: smokeping-netpi
     environment:
       - PUID=1000
       - PGID=1000
