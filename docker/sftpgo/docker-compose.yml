@@ -1,0 +1,17 @@
+---
+services:
+  some-sftpgo:
+    image: drakkan/sftpgo:latest
+    container_name: sftpgo
+    ports:
+      - "8080:8080"
+      - "2022:2022"
+      - "2121:2121"
+      - "50000-50100:50000-50100"
+    environment:
+      SFTPGO_FTPD__BINDINGS__0__PORT: "2121"
+      SFTPGO_FTPD__BINDINGS__0__FORCE_PASSIVE_IP: "192.168.1.76"
+    volumes:
+      - ./sftpgodata:/srv/sftpgo
+      - ./sftpgohome:/var/lib/sftpgo
+    restart: unless-stopped
