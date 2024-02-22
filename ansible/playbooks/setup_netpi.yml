@@ -1,0 +1,182 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: true
+
+  tasks:
+    - name: Set hostname
+      hostname:
+        name: netpi
+
+    - name: updates server
+      apt: update_cache=yes
+
+    - name: upgrades server
+      apt: upgrade=dist
+
+    - name: Install base packages
+      apt:
+        pkg:
+          - htop
+          - rsync
+          - gpg
+          - git
+          - fail2ban
+          - zsh
+          - neovim
+          - net-tools
+          - gzip
+          - ufw
+          - curl
+          - wget
+          - sudo
+          - ntp
+          - unattended-upgrades
+          - cockpit
+          - nmap
+          - iperf
+          - iperf3
+          - tcpdump
+          - ipcalc
+          - ipcalc-ng
+          - ncat
+          - dnsutils
+          - iptraf-ng
+          - arp-scan
+          - hping3
+          - mtr
+          - iftop
+          - whois
+          - fping
+          - tshark
+          - arping
+          - tcptrack
+          - slurm
+          - ethtool
+          - telnet
+          - ngrep
+          - bmon
+          - darkstat
+          - jnettop
+          - dstat
+          - nikto
+
+        state: present
+
+    - name: Add Ubuntu docker repository
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        keyring: /etc/apt/keyrings/docker.gpg
+        state: present
+      when:
+      - ansible_facts['distribution'] == "Ubuntu"
+
+    - name: Add Debian docker repository
+      apt_key:
+        url: https://download.docker.com/linux/debian/gpg
+        keyring: /etc/apt/keyrings/docker.gpg
+        state: present
+      when:
+      - ansible_facts['distribution'] == "Debian"
+
+    - name: Add docker repo X86_64 for Ubuntu
+      ansible.builtin.apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+        state: present
+      when:
+      - ansible_facts['architecture'] == "x86_64" and ansible_facts['distribution'] == "Ubuntu"
+
+    - name: Add docker repo ARM for Ubuntu
+      ansible.builtin.apt_repository:
+        repo: deb [arch=arm64] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable
+        state: present
+      when:
+        - ansible_facts['architecture'] == "aarch64" and ansible_facts['distribution'] == "Ubuntu"
+
+    - name: Add docker repo X86_64 for Debian
+      ansible.builtin.apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable
+        state: present
+      when:
+      - ansible_facts['architecture'] == "x86_64" and ansible_facts['distribution'] == "Debian"
+
+    - name: Add docker repo ARM for Debian
+      ansible.builtin.apt_repository:
+        repo: deb [arch=arm64] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable
+        state: present
+      when:
+        - ansible_facts['architecture'] == "aarch64" and ansible_facts['distribution'] == "Debian"
+
+    - name: Install docker packages
+      apt:
+        pkg:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-compose-plugin
+          - docker-buildx-plugin
+        state: present
+
+    - name: Create docker data directory
+      ansible.builtin.file:
+        path: /opt/docker
+        state: directory
+
+    - name: Create application directories 
+      ansible.builtin.file:
+        path: "/opt/docker/{{ item }}"
+        state: directory
+      loop:
+        - chromium
+        - dockge
+        - librespeed
+        - openspeedtest
+        - sftpgo
+        - smokeping
+        - statping
+        - syncthing
+        - uptime-kuma
+        - wireshark
+
+    - name: Install oh-my-zsh
+      shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh) --unattended"
+      args:
+        executable: /bin/bash
+      become_user: "{{ ansible_user_id }}"
+      become: true
+
+    - name: Clone zsh-syntax-highlighting repository
+      git:
+        repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
+        dest: "/home/{{ ansible_user_id }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+      become_user: "{{ ansible_user_id }}"
+      become: true
+
+    - name: Clone zsh-autosuggestions repository
+      git:
+        repo: https://github.com/zsh-users/zsh-autosuggestions.git
+        dest: "/home/{{ ansible_user_id }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+      become_user: "{{ ansible_user_id }}"
+      become: true
+
+    - name: Change default shell to zsh for the user
+      user:
+        name: "{{ ansible_user_id }}"
+        shell: /bin/zsh
+      become: true
+
+    - name: Set theme in .zshrc
+      lineinfile:
+        path: "/home/{{ ansible_user_id }}/.zshrc"
+        regexp: '^ZSH_THEME='
+        line: 'ZSH_THEME="robbyrussell"'
+      become_user: "{{ ansible_user_id }}"
+      become: true
+
+    - name: Enable plugins in .zshrc
+      lineinfile:
+        path: "/home/{{ ansible_user_id }}/.zshrc"
+        regexp: '^plugins='
+        line: 'plugins=(git docker zsh-syntax-highlighting zsh-autosuggestions colored-man-pages extract history history-substring-search sudo vi-mode)'
+      become_user: "{{ ansible_user_id }}"
+      become: true
