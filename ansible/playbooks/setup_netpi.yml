@@ -1,5 +1,8 @@
 ---
 - hosts: localhost
+  vars:
+    ansible_user_id: "{{ lookup('env', 'USER') }}"
+
   vars_prompt:
     - name: "ansible_become_password"
       prompt: "Enter sudo password"
