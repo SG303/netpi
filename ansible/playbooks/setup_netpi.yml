@@ -7,6 +7,7 @@
     - name: "ansible_become_password"
       prompt: "Enter sudo password"
       private: true
+
   become: true
   become_method: sudo
   connection: local
@@ -17,10 +18,10 @@
       hostname:
         name: netpi
 
-    - name: updates server
+    - name: Update host
       apt: update_cache=yes
 
-    - name: upgrades server
+    - name: Upgrade host
       apt: upgrade=dist
 
     - name: Install base packages
@@ -102,6 +103,12 @@
           - docker-compose-plugin
           - docker-buildx-plugin
         state: present
+
+    - name: Add user to Docker group
+      ansible.builtin.user:
+        name: "{{ ansible_user_id }}"
+        groups: docker
+        append: true
 
     - name: Create docker data directory
       ansible.builtin.file:
