@@ -68,44 +68,20 @@
         url: https://download.docker.com/linux/ubuntu/gpg
         keyring: /etc/apt/keyrings/docker.gpg
         state: present
-      when:
-      - ansible_facts['distribution'] == "Ubuntu"
-
-    - name: Add Debian docker repository
-      apt_key:
-        url: https://download.docker.com/linux/debian/gpg
-        keyring: /etc/apt/keyrings/docker.gpg
-        state: present
-      when:
-      - ansible_facts['distribution'] == "Debian"
 
     - name: Add docker repo X86_64 for Ubuntu
       ansible.builtin.apt_repository:
         repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
         state: present
       when:
-      - ansible_facts['architecture'] == "x86_64" and ansible_facts['distribution'] == "Ubuntu"
+      - ansible_facts['architecture'] == "x86_64"
 
     - name: Add docker repo ARM for Ubuntu
       ansible.builtin.apt_repository:
         repo: deb [arch=arm64] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable
         state: present
       when:
-        - ansible_facts['architecture'] == "aarch64" and ansible_facts['distribution'] == "Ubuntu"
-
-    - name: Add docker repo X86_64 for Debian
-      ansible.builtin.apt_repository:
-        repo: deb [arch=amd64] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable
-        state: present
-      when:
-      - ansible_facts['architecture'] == "x86_64" and ansible_facts['distribution'] == "Debian"
-
-    - name: Add docker repo ARM for Debian
-      ansible.builtin.apt_repository:
-        repo: deb [arch=arm64] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable
-        state: present
-      when:
-        - ansible_facts['architecture'] == "aarch64" and ansible_facts['distribution'] == "Debian"
+        - ansible_facts['architecture'] == "aarch64"
 
     - name: Install docker packages
       apt:
@@ -159,12 +135,6 @@
       become_user: "{{ ansible_user_id }}"
       become: true
 
-    - name: Change default shell to zsh for the user
-      user:
-        name: "{{ ansible_user_id }}"
-        shell: /bin/zsh
-      become: true
-
     - name: Set theme in .zshrc
       lineinfile:
         path: "/home/{{ ansible_user_id }}/.zshrc"
@@ -179,4 +149,10 @@
         regexp: '^plugins='
         line: 'plugins=(git docker zsh-syntax-highlighting zsh-autosuggestions colored-man-pages extract history history-substring-search sudo vi-mode)'
       become_user: "{{ ansible_user_id }}"
+      become: true
+
+    - name: Change default shell to zsh for the user
+      user:
+        name: "{{ ansible_user_id }}"
+        shell: /bin/zsh
       become: true
