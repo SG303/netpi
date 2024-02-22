@@ -1,5 +1,11 @@
 ---
 - hosts: localhost
+  vars_prompt:
+    - name: "ansible_become_password"
+      prompt: "Enter sudo password"
+      private: true
+  become: true
+  become_method: sudo
   connection: local
   gather_facts: true
 
