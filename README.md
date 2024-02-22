@@ -1,2 +1,2 @@
 # netpi
-Automatic setup of an rasperry pi with Ubuntu and Ansible or Nix OS for network monitoring and troubleshooting purposes
+Automatic setup of an Rasperry Pi running Ubuntu with Ansible for network monitoring and troubleshooting purposes.
