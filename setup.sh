@@ -15,4 +15,4 @@ then
 fi
 
 # Run the playbook
-ansible-playbook setup_netpi.yml
+ansible-playbook ./ansible/playbooks/setup_netpi.yml
