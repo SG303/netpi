@@ -249,14 +249,14 @@
     - name: Copy playbook
       copy:
         src: ./ansible/playbooks/update_homer_dashboard.yml
-        dest: /usr/local/bin/update-homer-dashboard.yml
+        dest: /usr/local/bin/update_homer_dashboard.yml
  
     - name: Create script to run Ansible playbook
       copy:
         dest: /usr/local/bin/run-playbook
         content: |
           #!/bin/bash
-          ansible-playbook /usr/local/bin/update-homer-dashboard.yml
+          ansible-playbook /usr/local/bin/update_homer_dashboard.yml
         owner: root
         group: root
         mode: '0755'
