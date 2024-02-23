@@ -74,7 +74,7 @@ links: []
 # First level array represent a group.
 # Leave only a "items" key if not using group (group name, icon & tagstyle are optional, section separation will not be displayed).
 services:
-  - name: "Applications"
+  - name: "Apps"
     icon: "fas fa-cloud"
     items:
       - name: "Dockge"
