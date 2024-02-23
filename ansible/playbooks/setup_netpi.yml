@@ -114,15 +114,15 @@
       ansible.builtin.file:
         path: /opt/docker
         state: directory
-        owner: "1001"
-        group: "1001"
+        owner: "1000"
+        group: "1000"
 
     - name: Create application directories 
       ansible.builtin.file:
         path: "/opt/docker/{{ item }}"
         state: directory
-        owner: "1001"
-        group: "1001"
+        owner: "1000"
+        group: "1000"
       loop:
         - chromium
         - dockge
@@ -138,9 +138,11 @@
 
     - name: Create a symbolic link for docker directory
       ansible.builtin.file:
-        src: ../../docker
+        src: /home/{{ ansible_user_id }}/netpi/docker
         dest: /opt/docker/_compose
         state: link
+        owner: "1000"
+        group: "1000"
  
     - name: Install oh-my-zsh
       shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh) --unattended"
