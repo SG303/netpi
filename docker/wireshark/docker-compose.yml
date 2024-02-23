@@ -13,7 +13,7 @@ services:
       - PGID=1000
       - TZ=Europe/Zurich
     volumes:
-      - ./config:/config
+      - /opt/docker/wireshark/config:/config
     ports:
       - 3000:3000 #optional
       - 3001:3001 #optional
