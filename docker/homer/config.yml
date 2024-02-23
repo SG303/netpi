@@ -13,7 +13,7 @@ connectivityCheck: true
 
 # Set the default layout and color scheme
 defaults:
-  layout: columns # Either 'columns', or 'list'
+  layout: list # Either 'columns', or 'list'
   colorTheme: auto # One of 'auto', 'light', or 'dark'
 
 # Optional theme customization
@@ -32,6 +32,7 @@ colors:
     card-shadow: rgba(0, 0, 0, 0.1)
     link: "#3273dc"
     link-hover: "#363636"
+    background-image: "assets/bg.jpg"
   dark:
     highlight-primary: "#363636"
     highlight-secondary: "#424242"
@@ -45,6 +46,7 @@ colors:
     card-shadow: rgba(0, 0, 0, 0.4)
     link: "#3273dc"
     link-hover: "#ffdd57"
+    background-image: "assets/bg.jpg"
 
 # Optional message
 # message:
@@ -78,11 +80,13 @@ services:
     icon: "fas fa-cubes"
     items:
       - name: "Dockge"
+        type: Ping
         subtitle: "Docker container management"
         url: "http://{{ lookup('file', '/var/run/ip_address') }}:5001"
-        target: '_top'
+        target: '_blank'
       
       - name: "Cockpit"
+        type: Ping
         subtitle: "Web-based graphical interface for servers"
         url: "https://{{ lookup('file', '/var/run/ip_address') }}:9090"
         target: '_blank'    
@@ -91,11 +95,13 @@ services:
     icon: "fas fa-eye"
     items:
       - name: "Uptime Kuma"
+        type: Ping
         subtitle: "Monitoring tool"
         url: "http://{{ lookup('file', '/var/run/ip_address') }}:3006"
         target: '_blank'
       
       - name: "SmokePing"
+        type: Ping
         subtitle: "Network latency monitoring"
         url: "http://{{ lookup('file', '/var/run/ip_address') }}:3081"
         target: '_blank'
