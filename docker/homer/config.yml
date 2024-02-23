@@ -74,15 +74,66 @@ links: []
 # First level array represent a group.
 # Leave only a "items" key if not using group (group name, icon & tagstyle are optional, section separation will not be displayed).
 services:
-  - name: "Apps"
-    icon: "fas fa-cloud"
+  - name: "Management"
+    icon: "fas fa-cubes"
     items:
       - name: "Dockge"
-        subtitle: "Docker Container Management"
+        subtitle: "Docker container management"
         url: "http://{{ lookup('file', '/var/run/ip_address') }}:5001"
         target: '_top'
-      - name: "Open Speed Test"
-        # logo: "assets/tools/portainer.png"
+      
+      - name: "Cockpit"
+        subtitle: "Web-based graphical interface for servers"
+        url: "https://{{ lookup('file', '/var/run/ip_address') }}:9090"
+        target: '_blank'    
+  
+  - name: "Monitoring and performance testing"   
+    icon: "fas fa-eye"
+    items:
+      - name: "Uptime Kuma"
+        subtitle: "Monitoring tool"
+        url: "http://{{ lookup('file', '/var/run/ip_address') }}:3006"
+        target: '_blank'
+      
+      - name: "SmokePing"
+        subtitle: "Network latency monitoring"
+        url: "http://{{ lookup('file', '/var/run/ip_address') }}:3081"
+        target: '_blank'
+
+      - name: "Statping"
+        subtitle: "Status page for monitoring websites and applications"
+        url: "http://{{ lookup('file', '/var/run/ip_address') }}:8080"
+        target: '_blank'
+
+      - name: "Open SpeedTest"
         subtitle: "Local Network Speed Test"
         url: "https://{{ lookup('file', '/var/run/ip_address') }}:3008"
-        target: '_top'
+        target: '_blank'
+
+      - name: "LibreSpeed Test"
+        subtitle: "Local Network Speed Test"
+        url: "http://{{ lookup('file', '/var/run/ip_address') }}:3080"
+        target: '_blank'
+
+  - name: "Other Applications"
+    icon: "fas fa-database"
+    items:
+      - name: "Wireshark"
+        subtitle: "Network protocol analyzer"
+        url: "https://{{ lookup('file', '/var/run/ip_address') }}:3001"
+        target: '_blank'
+
+      - name: "SFTPGo"
+        subtitle: "SFTP server"
+        url: "https://{{ lookup('file', '/var/run/ip_address') }}:8088"
+        target: '_blank'
+
+      - name: "Chromium"
+        subtitle: "Web browser"
+        url: "https://{{ lookup('file', '/var/run/ip_address') }}:3005"
+        target: '_blank'
+
+      - name: "Syncthing"
+        subtitle: "File synchronization"
+        url: "https://{{ lookup('file', '/var/run/ip_address') }}:8384"
+        target: '_blank'
