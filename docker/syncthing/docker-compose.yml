@@ -9,8 +9,8 @@ services:
       - PGID=1000
       - TZ=Europe/Zurich
     volumes:
-      - ./config:/config
-      - ./data:/data
+      - /opt/docker/syncthing/config:/config
+      - /opt/docker/syncthing/data:/data
     ports:
       - 8384:8384
       - 22000:22000/tcp

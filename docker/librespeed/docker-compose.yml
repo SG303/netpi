@@ -9,7 +9,7 @@ services:
       - TZ=Euope/Zurich
       - PASSWORD=PASSWORD
     volumes:
-      - ./config:/config
+      - /opt/docker/librespeed/config:/config
     ports:
       - 80:80
     restart: unless-stopped
