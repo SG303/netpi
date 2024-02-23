@@ -114,11 +114,15 @@
       ansible.builtin.file:
         path: /opt/docker
         state: directory
+        owner: "1001"
+        group: "1001"
 
     - name: Create application directories 
       ansible.builtin.file:
         path: "/opt/docker/{{ item }}"
         state: directory
+        owner: "1001"
+        group: "1001"
       loop:
         - chromium
         - dockge
@@ -218,7 +222,7 @@
         dest: /usr/local/bin/get-ip-address
         content: |
           #!/bin/bash
-          ip addr show eth0 | grep inet | awk '{ print $2; }' | sed 's/\/.*$//' > /var/run/ip_address
+          ip -4 addr show eth0 | grep inet | awk '{ print $2; }' | sed 's/\/.*$//' > /var/run/ip_address
         owner: root
         group: root
         mode: '0755'
@@ -248,7 +252,7 @@
  
     - name: Copy playbook
       copy:
-        remote_src: ./ansible/playbooks/update_homer_dashboard.yml
+        src: ./update_homer_dashboard.yml
         dest: /usr/local/bin/update_homer_dashboard.yml
  
     - name: Create script to run Ansible playbook
