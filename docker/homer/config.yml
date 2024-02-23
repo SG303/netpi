@@ -79,7 +79,7 @@ services:
     items:
       - name: "Dockge"
         subtitle: "Docker Container Management"
-        url: "https://{{ lookup('file', '/var/run/ip_address') }}:9443"
+        url: "http://{{ lookup('file', '/var/run/ip_address') }}:5001"
         target: '_top'
       - name: "Open Speed Test"
         # logo: "assets/tools/portainer.png"
