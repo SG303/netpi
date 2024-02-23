@@ -137,6 +137,7 @@
         executable: /bin/bash
       become_user: "{{ ansible_user_id }}"
       become: true
+      ignore_errors: true
 
     - name: Clone zsh-syntax-highlighting repository
       git:
@@ -173,3 +174,73 @@
         name: "{{ ansible_user_id }}"
         shell: /bin/zsh
       become: true
+    
+    - name: Create systemd service for unattended upgrades
+      copy:
+        dest: /etc/systemd/system/unattended-upgrades.service
+        content: |
+          [Unit]
+          Description=Unattended Upgrades
+          After=network.target
+
+          [Service]
+          ExecStart=/usr/bin/unattended-upgrade
+
+          [Install]
+          WantedBy=multi-user.target
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Enable and start unattended upgrades service
+      systemd:
+        name: unattended-upgrades
+        enabled: yes
+        state: started
+
+    - name: Configure unattended upgrades
+      copy:
+        dest: /etc/apt/apt.conf.d/50unattended-upgrades
+        content: |
+          Unattended-Upgrade::Allowed-Origins {
+              "${distro_id}:${distro_codename}";
+              "${distro_id}:${distro_codename}-security";
+              "${distro_id}ESM:${distro_codename}";
+          };
+          Unattended-Upgrade::Automatic-Reboot "false";
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Create script to get IP address
+      copy:
+        dest: /usr/local/bin/get-ip-address
+        content: |
+          #!/bin/bash
+          ip addr show eth0 | grep inet | awk '{ print $2; }' | sed 's/\/.*$//' > /var/run/ip_address
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: Create systemd service to run script at boot
+      copy:
+        dest: /etc/systemd/system/get-ip-address.service
+        content: |
+          [Unit]
+          Description=Get IP Address
+          After=network.target
+
+          [Service]
+          ExecStart=/usr/local/bin/get-ip-address
+
+          [Install]
+          WantedBy=multi-user.target
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Enable and start get IP address service
+      systemd:
+        name: get-ip-address
+        enabled: yes
+        state: started
