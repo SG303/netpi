@@ -6,5 +6,5 @@
   tasks:
     - name: Copy a file with Jinja variables
       template:
-        src: ../../docker/homer/config.yml
+        src: /opt/docker/_compose/homer/config.yml
         dest: /opt/docker/homer/assets/config.yml
