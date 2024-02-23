@@ -130,6 +130,7 @@
         - syncthing
         - uptime-kuma
         - wireshark
+        - homer
 
     - name: Install oh-my-zsh
       shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh) --unattended"
@@ -242,5 +243,43 @@
     - name: Enable and start get IP address service
       systemd:
         name: get-ip-address
+        enabled: yes
+        state: started
+ 
+    - name: Copy playbook
+      copy:
+        src: ./ansible/playbooks/update_homer_dashboard.yml
+        dest: /usr/local/bin/update-homer-dashboard.yml
+ 
+    - name: Create script to run Ansible playbook
+      copy:
+        dest: /usr/local/bin/run-playbook
+        content: |
+          #!/bin/bash
+          ansible-playbook /usr/local/bin/update-homer-dashboard.yml
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: Create systemd service to run script at boot
+      copy:
+        dest: /etc/systemd/system/run-playbook.service
+        content: |
+          [Unit]
+          Description=Run Ansible Playbook
+          After=network.target get-ip-address.service
+
+          [Service]
+          ExecStart=/usr/local/bin/run-playbook
+
+          [Install]
+          WantedBy=multi-user.target
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Enable and start run playbook service
+      systemd:
+        name: run-playbook
         enabled: yes
         state: started
