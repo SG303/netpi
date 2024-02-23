@@ -136,6 +136,12 @@
         - wireshark
         - homer
 
+    - name: Create a symbolic link for docker directory
+      ansible.builtin.file:
+        src: ../../docker
+        dest: /opt/docker/_compose
+        state: link
+ 
     - name: Install oh-my-zsh
       shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh) --unattended"
       args:
