@@ -77,7 +77,7 @@
     - name: Add Ubuntu docker repository
       apt_key:
         url: https://download.docker.com/linux/ubuntu/gpg
-        keyring: /etc/apt/keyrings/docker.gpg
+#        keyring: /etc/apt/keyrings/docker.gpg
         state: present
 
     - name: Add docker repo X86_64 for Ubuntu
