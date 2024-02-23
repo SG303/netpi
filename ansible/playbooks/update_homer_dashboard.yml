@@ -8,3 +8,13 @@
       template:
         src: /opt/docker/_compose/homer/config.yml
         dest: /opt/docker/homer/assets/config.yml
+
+    - name: Stop Homer
+      ansible.builtin.command: docker compose down
+      args:
+        chdir: /opt/docker/_compose/homer/
+
+    - name: Start Homer
+      ansible.builtin.command: docker compose up -d
+      args:
+        chdir: /opt/docker/_compose/homer/
