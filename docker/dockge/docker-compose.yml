@@ -12,7 +12,7 @@ services:
       # ⚠️ READ IT CAREFULLY. If you did it wrong, your data could end up writing into a WRONG PATH.
       # ⚠️ 1. FULL path only. No relative path (MUST)
       # ⚠️ 2. Left Stacks Path === Right Stacks Path (MUST)
-      - ../docker:../docker
+      - /opt/docker/_compose:/opt/docker/_compose
     environment:
       # Tell Dockge where to find the stacks
-      - DOCKGE_STACKS_DIR=../docker
+      - DOCKGE_STACKS_DIR=/opt/docker/_compose
