@@ -248,7 +248,7 @@
  
     - name: Copy playbook
       copy:
-        src: ./ansible/playbooks/update_homer_dashboard.yml
+        remote_src: ./ansible/playbooks/update_homer_dashboard.yml
         dest: /usr/local/bin/update_homer_dashboard.yml
  
     - name: Create script to run Ansible playbook
