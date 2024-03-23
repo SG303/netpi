@@ -6,10 +6,10 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Euope/Zurich
+      - TZ={{ timezone }}
       - PASSWORD=PASSWORD
     volumes:
       - /opt/docker/librespeed/config:/config
     ports:
-      - 80:80
+      - 3002:80
     restart: unless-stopped
