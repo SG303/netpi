@@ -8,12 +8,11 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Europe/Zurich
-      - CHROME_CLI=https://www.linuxserver.io/ #optional
+      - TZ={{ timezone }}
     volumes:
       - /opt/docker/chromium/config:/config
     ports:
-      - 3004:3000
-      - 3005:3001
+      - 3000:3000
+      - 4000:3001
     shm_size: "1gb"
     restart: unless-stopped

@@ -4,13 +4,17 @@ services:
     image: drakkan/sftpgo:latest
     container_name: sftpgo
     ports:
-      - "8080:8080"
+      - "3004:8080"
       - "2022:2022"
       - "2121:2121"
       - "50000-50100:50000-50100"
     environment:
       SFTPGO_FTPD__BINDINGS__0__PORT: "2121"
-      SFTPGO_FTPD__BINDINGS__0__FORCE_PASSIVE_IP: "192.168.1.76"
+      {% if dash_auto_ip %}
+      SFTPGO_FTPD__BINDINGS__0__FORCE_PASSIVE_IP: "{{ lookup('file', '/var/run/ip_address') }}"
+      {% else %}
+      SFTPGO_FTPD__BINDINGS__0__FORCE_PASSIVE_IP: "{{ dash_static_ip }}"
+      {% endif %}
     volumes:
       - /opt/docker/sftpgo/sftpgodata:/srv/sftpgo
       - /opt/docker/sftpgo/sftpgohome:/var/lib/sftpgo

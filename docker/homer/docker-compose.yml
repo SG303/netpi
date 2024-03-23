@@ -9,4 +9,9 @@ services:
       - 80:8080
     user: 1000:1000 # default
     environment:
-      - INIT_ASSETS=1 # default
+      - INIT_ASSETS=0 # default
+  cors-anywhere:
+    image: ghcr.io/sg303/docker-cors-anywhere/cors-anywhere:latest
+    ports:
+      - 3333:3333
+  
