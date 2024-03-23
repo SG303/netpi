@@ -110,39 +110,129 @@
         groups: docker
         append: true
 
-    - name: Create docker data directory
-      ansible.builtin.file:
-        path: /opt/docker
-        state: directory
-        owner: "1000"
-        group: "1000"
+    # - name: Create docker data directory
+      # ansible.builtin.file:
+        # path: /opt/docker
+        # state: directory
+        # owner: "1000"
+        # group: "1000"
 
-    - name: Create application directories 
-      ansible.builtin.file:
-        path: "/opt/docker/{{ item }}"
-        state: directory
-        owner: "1000"
-        group: "1000"
-      loop:
-        - chromium
-        - dockge
-        - librespeed
-        - openspeedtest
-        - sftpgo
-        - smokeping
-        - statping
-        - syncthing
-        - uptime-kuma
-        - wireshark
-        - homer
+    # - name: Create application directories 
+      # ansible.builtin.file:
+        # path: "/opt/docker/{{ item }}"
+        # state: directory
+        # owner: "1000"
+        # group: "1000"
+      # loop:
+        # - chromium
+        # - dockge
+        # - librespeed
+        # - openspeedtest
+        # - sftpgo
+        # - smokeping
+        # - statping
+        # - syncthing
+        # - uptime-kuma
+        # - wireshark
+        # - homer
+        # - speedtest-tracker
 
-    - name: Create a symbolic link for docker directory
-      ansible.builtin.file:
-        src: /home/{{ ansible_user_id }}/netpi/docker
-        dest: /opt/docker/_compose
-        state: link
+    - name: Create script to get IP address
+      copy:
+        dest: /usr/local/bin/get-ip-address
+        content: |
+          #!/bin/bash
+          ip -4 addr show eth0 | grep inet | awk '{ print $2; }' | sed 's/\/.*$//' > /var/run/ip_address
+        owner: root
+        group: root
+        mode: '0755'
+      when: dash_auto_ip | bool
+
+    - name: Create systemd service to run script at boot
+      copy:
+        dest: /etc/systemd/system/get-ip-address.service
+        content: |
+          [Unit]
+          Description=Get IP Address
+          After=network.target
+
+          [Service]
+          ExecStart=/usr/local/bin/get-ip-address
+
+          [Install]
+          WantedBy=multi-user.target
+        owner: root
+        group: root
+        mode: '0644'
+      when: dash_auto_ip | bool
+
+    - name: Enable and start get IP address service
+      systemd:
+        name: get-ip-address
+        enabled: yes
+        state: started
+      when: dash_auto_ip | bool
+
+    - name: Copy playbook
+      copy:
+        src: ./update_homer_dashboard.yml
+        dest: /usr/local/bin/update_homer_dashboard.yml
+      when: dash_auto_ip | bool
+ 
+    - name: Create script to run Ansible playbook
+      copy:
+        dest: /usr/local/bin/run-playbook
+        content: |
+          #!/bin/bash
+          ansible-playbook /usr/local/bin/update_homer_dashboard.yml
+        owner: root
+        group: root
+        mode: '0755'
+      when: dash_auto_ip | bool
+
+    - name: Create systemd service to run script at boot
+      copy:
+        dest: /etc/systemd/system/run-playbook.service
+        content: |
+          [Unit]
+          Description=Run Ansible Playbook
+          After=network.target get-ip-address.service
+
+          [Service]
+          ExecStart=/usr/local/bin/run-playbook
+
+          [Install]
+          WantedBy=multi-user.target
+        owner: root
+        group: root
+        mode: '0644'
+      when: dash_auto_ip | bool
+
+    - name: Enable and start run playbook service
+      systemd:
+        name: run-playbook
+        enabled: yes
+        state: started
+      when: dash_auto_ip | bool
+
+    - name: Reboot host 
+      reboot:
+
+    - name: Copy files and directories with permissions, owner, and group
+      template:
+        src: "{{ item.src }}"
+        dest: "/opt/{{ item.src | dirname }}"
         owner: "1000"
         group: "1000"
+      with_filetree: "/home/{{ansible_user_id }}/netpi/docker"
+
+    # - name: Create a symbolic link for docker directory
+      # file:
+        # src: /home/{{ ansible_user_id }}/netpi/docker
+        # dest: /opt/docker/_compose
+        # state: link
+        # owner: "1000"
+        # group: "1000"
  
     - name: Install oh-my-zsh
       shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh) --unattended"
@@ -188,28 +278,19 @@
         shell: /bin/zsh
       become: true
     
-    - name: Create systemd service for unattended upgrades
-      copy:
-        dest: /etc/systemd/system/unattended-upgrades.service
-        content: |
-          [Unit]
-          Description=Unattended Upgrades
-          After=network.target
-
-          [Service]
-          ExecStart=/usr/bin/unattended-upgrade
-
-          [Install]
-          WantedBy=multi-user.target
-        owner: root
-        group: root
-        mode: '0644'
-
     - name: Enable and start unattended upgrades service
       systemd:
         name: unattended-upgrades
         enabled: yes
         state: started
+      when: auto_updates_enable | bool
+
+    - name: Disable and stop unattended upgrades service
+      systemd:
+        name: unattended-upgrades
+        enabled: false
+        state: stopped
+      when: not auto_updates_enable | bool
 
     - name: Configure unattended upgrades
       copy:
@@ -224,74 +305,4 @@
         owner: root
         group: root
         mode: '0644'
-
-    - name: Create script to get IP address
-      copy:
-        dest: /usr/local/bin/get-ip-address
-        content: |
-          #!/bin/bash
-          ip -4 addr show eth0 | grep inet | awk '{ print $2; }' | sed 's/\/.*$//' > /var/run/ip_address
-        owner: root
-        group: root
-        mode: '0755'
-
-    - name: Create systemd service to run script at boot
-      copy:
-        dest: /etc/systemd/system/get-ip-address.service
-        content: |
-          [Unit]
-          Description=Get IP Address
-          After=network.target
-
-          [Service]
-          ExecStart=/usr/local/bin/get-ip-address
-
-          [Install]
-          WantedBy=multi-user.target
-        owner: root
-        group: root
-        mode: '0644'
-
-    - name: Enable and start get IP address service
-      systemd:
-        name: get-ip-address
-        enabled: yes
-        state: started
- 
-    - name: Copy playbook
-      copy:
-        src: ./update_homer_dashboard.yml
-        dest: /usr/local/bin/update_homer_dashboard.yml
- 
-    - name: Create script to run Ansible playbook
-      copy:
-        dest: /usr/local/bin/run-playbook
-        content: |
-          #!/bin/bash
-          ansible-playbook /usr/local/bin/update_homer_dashboard.yml
-        owner: root
-        group: root
-        mode: '0755'
-
-    - name: Create systemd service to run script at boot
-      copy:
-        dest: /etc/systemd/system/run-playbook.service
-        content: |
-          [Unit]
-          Description=Run Ansible Playbook
-          After=network.target get-ip-address.service
-
-          [Service]
-          ExecStart=/usr/local/bin/run-playbook
-
-          [Install]
-          WantedBy=multi-user.target
-        owner: root
-        group: root
-        mode: '0644'
-
-    - name: Enable and start run playbook service
-      systemd:
-        name: run-playbook
-        enabled: yes
-        state: started
+      when: auto_updates_enable | bool and auto_updates_type == "all"
