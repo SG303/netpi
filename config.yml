@@ -1,0 +1,23 @@
+---
+# Netpi Config File
+
+
+## Timezone
+#
+# Define your timezone. The timezone gets set for the system and some Docker Container
+timezone: "Europe/Berlin"
+
+## Automatic upgrades
+#
+# Define if you want to enable automatic upgrades and if so only security or also all other updates
+auto_updates_enable: false
+auto_updates_type: "all"       # Options are security or all
+auto_updates_reboot: false     # Should the system automaticaly be rebootet if it is necessary after an update
+
+## IP for dashboard
+#
+# Define if the ip for the dashboard links should be automaticaly fetched from the system after every reboot
+# or staticly configured
+dash_auto_ip: true
+dash_static_ip:        # only set this if dash_auto_ip is equal to false. write only ip address for example "192.168.1.5"
+
