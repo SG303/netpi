@@ -15,4 +15,4 @@ then
 fi
 
 # Run the playbook
-ansible-playbook --extra-vars "@.config.yml" ./ansible/playbooks/setup_netpi.yml
+ansible-playbook --extra-vars "@config.yml" ./ansible/playbooks/setup_netpi.yml
