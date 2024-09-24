@@ -110,33 +110,6 @@
         groups: docker
         append: true
 
-    # - name: Create docker data directory
-      # ansible.builtin.file:
-        # path: /opt/docker
-        # state: directory
-        # owner: "1000"
-        # group: "1000"
-
-    # - name: Create application directories 
-      # ansible.builtin.file:
-        # path: "/opt/docker/{{ item }}"
-        # state: directory
-        # owner: "1000"
-        # group: "1000"
-      # loop:
-        # - chromium
-        # - dockge
-        # - librespeed
-        # - openspeedtest
-        # - sftpgo
-        # - smokeping
-        # - statping
-        # - syncthing
-        # - uptime-kuma
-        # - wireshark
-        # - homer
-        # - speedtest-tracker
-
     - name: Create script to get IP address
       copy:
         dest: /usr/local/bin/get-ip-address
@@ -215,24 +188,24 @@
         state: started
       when: dash_auto_ip | bool
 
-    - name: Reboot host 
-      reboot:
+    - name: Write IP address to file
+      copy:
+        content: "{{ ansible_host }}"
+        dest: /var/run/ip_address
 
-    - name: Copy files and directories with permissions, owner, and group
-      template:
-        src: "{{ item.src }}"
-        dest: "/opt/{{ item.src | dirname }}"
+    - name: Copy files to destination directory
+      copy:
+        src: "{{ repo_path | default('/home/' + ansible_user_id) }}/netpi/docker"
+        dest: "{{ data_path | default('/opt') }}"
         owner: "1000"
         group: "1000"
-      with_filetree: "/home/{{ansible_user_id }}/netpi/docker"
-
-    # - name: Create a symbolic link for docker directory
-      # file:
-        # src: /home/{{ ansible_user_id }}/netpi/docker
-        # dest: /opt/docker/_compose
-        # state: link
-        # owner: "1000"
-        # group: "1000"
+    
+    - name: Copy template
+      template:
+        src: "{{ repo_path | default('/home/' + ansible_user_id) }}/netpi/docker/homer/assets/config.yml"
+        dest: "{{ data_path | default('/opt') }}/docker/homer/assets/config.yml"
+        owner: "1000"
+        group: "1000"
  
     - name: Install oh-my-zsh
       shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh) --unattended"
@@ -306,3 +279,17 @@
         group: root
         mode: '0644'
       when: auto_updates_enable | bool and auto_updates_type == "all"
+   
+    - name: Start Docker containers
+      shell: docker compose up -d
+      args:
+        chdir: "{{ data_path | default('/opt') }}/docker/homer"
+      become_user: "{{ ansible_user_id }}"
+      become: true
+
+    - name: Start Docker containers
+      shell: docker compose up -d
+      args:
+        chdir: "{{ data_path | default('/opt') }}/docker/dockge"
+      become_user: "{{ ansible_user_id }}"
+      become: true
