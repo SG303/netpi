@@ -3,6 +3,7 @@ services:
   homer:
     image: b4bz/homer
     container_name: homer
+    restart: unless-stopped
     volumes:
       - /opt/docker/homer/assets/:/www/assets
     ports:
@@ -12,6 +13,7 @@ services:
       - INIT_ASSETS=0 # default
   cors-anywhere:
     image: ghcr.io/sg303/docker-cors-anywhere/cors-anywhere:latest
+    restart: unless-stopped
     ports:
       - 3333:3333
   
