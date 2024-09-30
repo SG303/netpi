@@ -200,13 +200,20 @@
         owner: "1000"
         group: "1000"
     
-    - name: Copy template
+    - name: Copy Homer template
       template:
         src: "{{ repo_path | default('/home/' + ansible_user_id) }}/netpi/docker/homer/assets/config.yml"
         dest: "{{ data_path | default('/opt') }}/docker/homer/assets/config.yml"
         owner: "1000"
         group: "1000"
  
+    - name: Copy Wetty template
+      template:
+        src: "{{ repo_path | default('/home/' + ansible_user_id) }}/netpi/docker/wetty/docker-compose.yml"
+        dest: "{{ data_path | default('/opt') }}/docker/wetty/docker-compose.yml"
+        owner: "1000"
+        group: "1000"
+
     - name: Install oh-my-zsh
       shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh) --unattended"
       args:
