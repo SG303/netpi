@@ -91,7 +91,7 @@ services:
         logo: "assets/logos/wetty.png"
         type: Ping
         subtitle: "SSH Web-Terminal for Netpi"
-        url: "http://{{ lookup('file', '/var/run/ip_address') }}/wetty:4010"
+        url: "http://{{ lookup('file', '/var/run/ip_address') }}:4010/wetty"
         endpoint: "http://{{ lookup('file', '/var/run/ip_address') }}:3333/http://{{ lookup('file', '/var/run/ip_address') }}:4010/wetty"
         target: '_blank'
 
