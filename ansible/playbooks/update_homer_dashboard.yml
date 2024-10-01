@@ -6,15 +6,15 @@
   tasks:
     - name: Copy a file with Jinja variables
       template:
-        src: /opt/docker/_compose/homer/config.yml
-        dest: /opt/docker/homer/assets/config.yml
+        src: "{{ repo_path | default('/home/' + ansible_user_id) }}/netpi/docker/homer/assets/config.yml"
+        dest: "{{ data_path | default('/opt') }}/docker/homer/assets/config.yml"
 
     - name: Stop Homer
       ansible.builtin.command: docker compose down
       args:
-        chdir: /opt/docker/_compose/homer/
+        chdir: "{{ data_path | default('/opt') }}/docker/_compose/homer/"
 
     - name: Start Homer
       ansible.builtin.command: docker compose up -d
       args:
-        chdir: /opt/docker/_compose/homer/
+        chdir: "{{ data_path | default('/opt') }}/docker/_compose/homer/"
