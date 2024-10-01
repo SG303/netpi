@@ -207,12 +207,7 @@
         owner: "1000"
         group: "1000"
  
-    - name: Copy Wetty template
-      template:
-        src: "{{ repo_path | default('/home/' + ansible_user_id) }}/netpi/docker/wetty/docker-compose.yml"
-        dest: "{{ data_path | default('/opt') }}/docker/wetty/docker-compose.yml"
-        owner: "1000"
-        group: "1000"
+
 
     - name: Install oh-my-zsh
       shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh) --unattended"
@@ -305,3 +300,10 @@
         chdir: "{{ data_path | default('/opt') }}/docker/dockge"
       become_user: "{{ ansible_user_id }}"
       become: true
+
+    - name: Copy Wetty template
+      template:
+        src: "{{ repo_path | default('/home/' + ansible_user_id) }}/netpi/docker/wetty/docker-compose.yml"
+        dest: "{{ data_path | default('/opt') }}/docker/wetty/docker-compose.yml"
+        owner: "1000"
+        group: "1000"
