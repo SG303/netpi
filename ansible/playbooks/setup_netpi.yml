@@ -207,8 +207,6 @@
         owner: "1000"
         group: "1000"
  
-
-
     - name: Install oh-my-zsh
       shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh) --unattended"
       args:
@@ -282,18 +280,12 @@
         mode: '0644'
       when: auto_updates_enable | bool and auto_updates_type == "all"
 
-    - name: Start Docker containers
-      shell: docker compose up -d
-      args:
-        chdir: "{{ data_path | default('/opt') }}/docker/homer"
-      become_user: "{{ ansible_user_id }}"
+    - name: Run get ip script
+      shell: /usr/local/bin/get-ip-address
       become: true
 
-    - name: Start Docker containers
-      shell: docker compose up -d
-      args:
-        chdir: "{{ data_path | default('/opt') }}/docker/dockge"
-      become_user: "{{ ansible_user_id }}"
+    - name: Run copy homer dashboard script
+      shell: /usr/local/bin/run-playbook
       become: true
 
     - name: Copy Wetty template
@@ -302,3 +294,15 @@
         dest: "{{ data_path | default('/opt') }}/docker/wetty/docker-compose.yml"
         owner: "1000"
         group: "1000"
+
+    - name: Start Docker containers
+      shell: docker compose up -d
+      args:
+        chdir: "{{ data_path | default('/opt') }}/docker/homer"
+      become: true
+
+    - name: Start Docker containers
+      shell: docker compose up -d
+      args:
+        chdir: "{{ data_path | default('/opt') }}/docker/dockge"
+      become: true
