@@ -6,7 +6,7 @@
   tasks:
     - name: Copy a file with Jinja variables
       template:
-        src: "{{ repo_path | default('/home/' + ansible_user_id) }}/netpi/docker/homer/assets/config.yml"
+        src: "{{ repo_path | default('/home/' + ansible_env.USER) }}/netpi/docker/homer/assets/config.yml"
         dest: "{{ data_path | default('/opt') }}/docker/homer/assets/config.yml"
 
     - name: Stop Homer
