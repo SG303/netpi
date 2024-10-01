@@ -12,9 +12,9 @@
     - name: Stop Homer
       ansible.builtin.command: docker compose down
       args:
-        chdir: "{{ data_path | default('/opt') }}/docker/_compose/homer/"
+        chdir: "{{ data_path | default('/opt') }}/docker/homer/"
 
     - name: Start Homer
       ansible.builtin.command: docker compose up -d
       args:
-        chdir: "{{ data_path | default('/opt') }}/docker/_compose/homer/"
+        chdir: "{{ data_path | default('/opt') }}/docker/homer/"
