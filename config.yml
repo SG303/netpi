@@ -10,9 +10,9 @@ timezone: "Europe/Berlin"
 ## Automatic upgrades
 #
 # Define if you want to enable automatic upgrades and if so only security or also all other updates
-auto_updates_enable: false
-auto_updates_type: "all"       # Options are security or all
-auto_updates_reboot: false     # Should the system automaticaly be rebootet if it is necessary after an update
+automatic_updates: false
+security_updates_only: true
+automatic_reboot: false     # Should the system automaticaly be rebootet if it is necessary after an update
 
 ## IP for dashboard
 #
