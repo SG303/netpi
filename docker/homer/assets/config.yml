@@ -133,7 +133,7 @@ services:
       - name: "LibreSpeed Test"
         logo: "assets/logos/librespeedtest.svg"
         type: Ping
-        subtitle: "local network speed test"
+        subtitle: "Local network speed test"
         url: "http://{{ lookup('file', '/var/run/ip_address') }}:3013"
         endpoint: "http://{{ lookup('file', '/var/run/ip_address') }}:3333/http://{{ lookup('file', '/var/run/ip_address') }}:3013"
         target: '_blank'
