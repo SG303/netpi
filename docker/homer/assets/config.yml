@@ -82,7 +82,7 @@ services:
       - name: "Cockpit"
         logo: "assets/logos/cockpit.png"
         type: Ping
-        subtitle: "Web-based graphical interface for servers"
+        subtitle: "Web-based server management"
         url: "https://{{ lookup('file', '/var/run/ip_address') }}:9090"
         endpoint: "http://{{ lookup('file', '/var/run/ip_address') }}:3333/https://{{ lookup('file', '/var/run/ip_address') }}:9090"
         target: '_blank'
@@ -90,7 +90,7 @@ services:
       - name: "Wetty"
         logo: "assets/logos/wetty.png"
         type: Ping
-        subtitle: "SSH Web-Terminal for Netpi"
+        subtitle: "SSH web-terminal"
         url: "http://{{ lookup('file', '/var/run/ip_address') }}:4022/wetty"
         endpoint: "http://{{ lookup('file', '/var/run/ip_address') }}:3333/http://{{ lookup('file', '/var/run/ip_address') }}:4022/wetty"
         target: '_blank'
@@ -117,7 +117,7 @@ services:
       - name: "Statping"
         logo: "assets/logos/statping.png"
         type: Ping
-        subtitle: "Status page for monitoring websites and applications"
+        subtitle: "Service health monitor"
         url: "http://{{ lookup('file', '/var/run/ip_address') }}:3019"
         endpoint: "http://{{ lookup('file', '/var/run/ip_address') }}:3333/http://{{ lookup('file', '/var/run/ip_address') }}:3019"
         target: '_blank'
@@ -125,7 +125,7 @@ services:
       - name: "Open SpeedTest"
         logo: "assets/logos/openspeedtest.png"
         type: Ping
-        subtitle: "Local Network Speed Test"
+        subtitle: "Local network speed test"
         url: "https://{{ lookup('file', '/var/run/ip_address') }}:4014"
         endpoint: "http://{{ lookup('file', '/var/run/ip_address') }}:3333/https://{{ lookup('file', '/var/run/ip_address') }}:3014"
         target: '_blank'
@@ -133,7 +133,7 @@ services:
       - name: "LibreSpeed Test"
         logo: "assets/logos/librespeedtest.svg"
         type: Ping
-        subtitle: "Local Network Speed Test"
+        subtitle: "local network speed test"
         url: "http://{{ lookup('file', '/var/run/ip_address') }}:3013"
         endpoint: "http://{{ lookup('file', '/var/run/ip_address') }}:3333/http://{{ lookup('file', '/var/run/ip_address') }}:3013"
         target: '_blank'
@@ -160,7 +160,7 @@ services:
       - name: "Pi-hole"
         logo: "assets/logos/pihole.png"
         type: Ping
-        subtitle: "DNS and DHCP Server"
+        subtitle: "DNS and DHCP server"
         url: "http://{{ lookup('file', '/var/run/ip_address') }}:3015"
         endpoint: "http://{{ lookup('file', '/var/run/ip_address') }}:3333/http://{{ lookup('file', '/var/run/ip_address') }}:3015"
         target: '_blank'
