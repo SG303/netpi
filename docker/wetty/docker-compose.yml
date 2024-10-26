@@ -6,9 +6,9 @@ services:
     ports:
       - 4022:3000
     image: wettyoss/wetty
-    {% if dash_auto_ip %}
+{% if dash_auto_ip %}
     command: --ssh-host={{ lookup('file', '/var/run/ip_address') }}
-    {% else %}
+{% else %}
     command: --ssh-host={{ dash_static_ip }}
-    {% endif %}
+{% endif %}
 
