@@ -31,12 +31,9 @@
           - rsync
           - gpg
           - git
-          - fail2ban
-          - zsh
           - neovim
           - net-tools
           - gzip
-          - ufw
           - curl
           - wget
           - sudo
@@ -71,8 +68,14 @@
           - nikto
           - speedtest-cli
           - iw
-
         state: present
+
+    - name: Install zsh
+      apt:
+        pkg:
+          - zsh
+        state: present
+      when: install_ohmyzsh | bool
 
     - name: Remove existing Docker repository configurations
       ansible.builtin.file:
@@ -234,6 +237,7 @@
       become_user: "{{ ansible_user_id }}"
       become: true
       ignore_errors: true
+      when: install_ohmyzsh | bool
 
     - name: Clone zsh-syntax-highlighting repository
       git:
@@ -241,6 +245,7 @@
         dest: "/home/{{ ansible_user_id }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
       become_user: "{{ ansible_user_id }}"
       become: true
+      when: install_ohmyzsh | bool
 
     - name: Clone zsh-autosuggestions repository
       git:
@@ -248,28 +253,32 @@
         dest: "/home/{{ ansible_user_id }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
       become_user: "{{ ansible_user_id }}"
       become: true
+      when: install_ohmyzsh | bool
 
     - name: Set theme in .zshrc
       lineinfile:
         path: "/home/{{ ansible_user_id }}/.zshrc"
         regexp: '^ZSH_THEME='
-        line: 'ZSH_THEME="robbyrussell"'
+        line: 'ZSH_THEME="{{ ohmyzsh_theme }}"'
       become_user: "{{ ansible_user_id }}"
       become: true
+      when: install_ohmyzsh | bool
 
     - name: Enable plugins in .zshrc
       lineinfile:
         path: "/home/{{ ansible_user_id }}/.zshrc"
         regexp: '^plugins='
-        line: 'plugins=(git docker zsh-syntax-highlighting zsh-autosuggestions colored-man-pages extract history history-substring-search sudo vi-mode)'
+        line: 'plugins=({{ ohmyzsh_plugins }})'
       become_user: "{{ ansible_user_id }}"
       become: true
+      when: install_ohmyzsh | bool
 
     - name: Change default shell to zsh for the user
       user:
         name: "{{ ansible_user_id }}"
         shell: /bin/zsh
       become: true
+      when: install_ohmyzsh | bool
 
     - name: Configure unattended upgrades
       blockinfile:
