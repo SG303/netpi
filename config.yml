@@ -1,11 +1,12 @@
 ---
-# Netpi Config File
+# Netpi Config File #
 
-
-## Timezone
+## ZSH Shell
 #
-# Define your timezone. The timezone gets set for the system and some Docker Container
-timezone: "Europe/Berlin"
+# Install the ZSH shell with oh-my-zsh plugin and theming framework
+install_ohmyzsh: false
+ohmyzsh_theme:                       # Themes can be found here: https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+ohmyzsh_plugins:                     # List plugins one by one separated with space. Plugins can be found here: https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins
 
 ## Automatic upgrades
 #
@@ -16,8 +17,8 @@ automatic_reboot: false     # Should the system automaticaly be rebootet if it i
 
 ## IP for dashboard
 #
-# Define if the ip for the dashboard links should be automaticaly fetched from the system after every reboot
+# Define if the ip for the dashboard tools should be automaticaly fetched from the system after every reboot
 # or staticly configured
 dash_auto_ip: true
-dash_static_ip:        # only set this if dash_auto_ip is equal to false. write only ip address for example "192.168.1.5"
+dash_static_ip:        # only set this if dash_auto_ip is equal to false. write ip address for example "192.168.1.5"
 
