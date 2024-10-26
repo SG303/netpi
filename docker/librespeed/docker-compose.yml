@@ -3,13 +3,13 @@ services:
   librespeed:
     image: lscr.io/linuxserver/librespeed:latest
     container_name: librespeed
+    restart: unless-stopped
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ={{ timezone }}
-      - PASSWORD=PASSWORD
+    # - TZ=Etc/UTC
+      - PASSWORD=password
     volumes:
-      - /opt/docker/librespeed/config:/config
+      - ./config:/config
     ports:
-      - 3002:80
-    restart: unless-stopped
+      - 3013:80

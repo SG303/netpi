@@ -3,8 +3,9 @@ services:
   some-sftpgo:
     image: drakkan/sftpgo:latest
     container_name: sftpgo
+    restart: unless-stopped
     ports:
-      - "3004:8080"
+      - "3016:8080"
       - "2022:2022"
       - "2121:2121"
       - "50000-50100:50000-50100"
@@ -16,6 +17,5 @@ services:
       SFTPGO_FTPD__BINDINGS__0__FORCE_PASSIVE_IP: "{{ dash_static_ip }}"
       {% endif %}
     volumes:
-      - /opt/docker/sftpgo/sftpgodata:/srv/sftpgo
-      - /opt/docker/sftpgo/sftpgohome:/var/lib/sftpgo
-    restart: unless-stopped
+      - ./sftpgodata:/srv/sftpgo
+      - ./sftpgohome:/var/lib/sftpgo

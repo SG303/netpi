@@ -324,6 +324,13 @@
         owner: "1000"
         group: "1000"
 
+    - name: Copy Sftpgo template
+      template:
+        src: "{{ repo_path | default('/home/' + ansible_user_id) }}/netpi/docker/sftpgo/docker-compose.yml"
+        dest: "{{ data_path | default('/opt') }}/docker/sftpgo/docker-compose.yml"
+        owner: "1000"
+        group: "1000"
+
     - name: Start Docker containers
       shell: docker compose up -d
       args:

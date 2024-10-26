@@ -3,17 +3,17 @@ services:
   syncthing:
     image: lscr.io/linuxserver/syncthing:latest
     container_name: syncthing
+    restart: unless-stopped
     hostname: syncthing-netpi #optional
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ={{ timezone }}
+     # - TZ=Etc/UTC
     volumes:
-      - /opt/docker/syncthing/config:/config
-      - /opt/docker/syncthing/data:/data
+      - ./config:/config
+      - ./data:/data
     ports:
-      - 4008:8384
+      - 4020:8384
       - 22000:22000/tcp
       - 22000:22000/udp
       - 21027:21027/udp
-    restart: unless-stopped

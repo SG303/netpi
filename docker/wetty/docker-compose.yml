@@ -1,8 +1,10 @@
 ---
 services:
   wetty:
+    container_name: wetty
+    restart: unless-stopped
     ports:
-      - 4010:3000
+      - 4022:3000
     image: wettyoss/wetty
     {% if dash_auto_ip %}
     command: --ssh-host={{ lookup('file', '/var/run/ip_address') }}

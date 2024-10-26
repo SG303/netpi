@@ -3,6 +3,7 @@ services:
   wireshark:
     image: lscr.io/linuxserver/wireshark:latest
     container_name: wireshark
+    restart: unless-stopped
     cap_add:
       - NET_ADMIN
     security_opt:
@@ -11,10 +12,9 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Europe/Zurich
+      # - TZ=Etc/UTC
     volumes:
-      - /opt/docker/wireshark/config:/config
-    ports:
-      - 3000:3000 #optional
-      - 3001:3001 #optional
-    restart: unless-stopped
+      - ./config:/config
+    # ports:
+      # - 3023:3000 # commented out because of network mode host
+      # - 4023:3001 #commented out because of network mode host
