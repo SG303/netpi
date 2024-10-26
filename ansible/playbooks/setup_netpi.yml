@@ -48,7 +48,6 @@
           - iperf3
           - tcpdump
           - ipcalc
-          - ipcalc-ng
           - ncat
           - dnsutils
           - iptraf-ng
@@ -71,6 +70,7 @@
           - dstat
           - nikto
           - speedtest-cli
+          - iw
 
         state: present
 
@@ -172,8 +172,7 @@
       copy:
         src: ./update_homer_dashboard.yml
         dest: /usr/local/bin/update_homer_dashboard.yml
-      when: dash_auto_ip | bool
- 
+
     - name: Create script to run Ansible playbook
       copy:
         dest: /usr/local/bin/run-playbook
@@ -183,7 +182,6 @@
         owner: root
         group: root
         mode: '0755'
-      when: dash_auto_ip | bool
 
     - name: Create systemd service to run script at boot
       copy:
@@ -221,14 +219,14 @@
         dest: "{{ data_path | default('/opt') }}"
         owner: "1000"
         group: "1000"
-    
+
     - name: Copy Homer template
       template:
         src: "{{ repo_path | default('/home/' + ansible_user_id) }}/netpi/docker/homer/assets/config.yml"
         dest: "{{ data_path | default('/opt') }}/docker/homer/assets/config.yml"
         owner: "1000"
         group: "1000"
- 
+
     - name: Install oh-my-zsh
       shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh) --unattended"
       args:
@@ -272,7 +270,7 @@
         name: "{{ ansible_user_id }}"
         shell: /bin/zsh
       become: true
-    
+
     - name: Configure unattended upgrades
       blockinfile:
         path: /etc/apt/apt.conf.d/50unattended-upgrades
@@ -302,11 +300,18 @@
         dest: /etc/apt/apt.conf.d/20auto-upgrades
         mode: "0644"
         owner: root
-        group: root 
+        group: root
 
     - name: Run get ip script
       shell: /usr/local/bin/get-ip-address
       become: true
+      when: dash_auto_ip | bool
+
+    - name: Write dash_static_ip to a file
+      ansible.builtin.copy:
+        content: "{{ dash_static_ip }}"
+        dest: "/var/run/ip_address"
+      when: not dash_auto_ip
 
     - name: Run copy homer dashboard script
       shell: /usr/local/bin/run-playbook
