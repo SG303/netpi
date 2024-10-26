@@ -9,7 +9,7 @@ services:
     environment:
       DB_CONN: sqlite
     ports:
-      - 3007:8080
+      - 3019:8080
 
 volumes:
   statping_data:

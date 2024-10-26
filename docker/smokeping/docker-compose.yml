@@ -7,10 +7,10 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ={{ timezone }}
+      # - TZ=Etc/UTC
     volumes:
-      - /opt/docker/smokeping/config:/config
-      - /opt/docker/smokeping/data:/data
+      - ./config:/config
+      - ./data:/data
     ports:
-      - 3005:80
+      - 3017:80
     restart: unless-stopped

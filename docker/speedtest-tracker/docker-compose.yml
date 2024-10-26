@@ -6,11 +6,12 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
+     # - TZ=Etc/UTC
       - TZ={{ timezone }}
       - DB_CONNECTION=sqlite
       - APP_KEY=base64:CRIZG+LPp+BPO4OKoTQwdglzVNoecch5dg9iiJHxkHA=
     volumes:
-      - /opt/docker/speedtest-tracker/data:/config
+      - ./data:/config
     ports:
-      - 4006:80
+      - 3018:80
     restart: unless-stopped
