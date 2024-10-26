@@ -6,7 +6,8 @@
 # Install the ZSH shell with oh-my-zsh plugin and theming framework
 install_ohmyzsh: false
 ohmyzsh_theme:                       # Themes can be found here: https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ohmyzsh_plugins:                     # List plugins one by one separated with space. Plugins can be found here: https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins
+ohmyzsh_plugins:                     # List all desired plugins within a single pair of quotation marks, separating each plugin name with a space. 
+                                     # Plugins can be found here: https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins
 
 ## Automatic upgrades
 #
