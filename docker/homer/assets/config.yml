@@ -127,7 +127,7 @@ services:
         type: Ping
         subtitle: "Local network speed test"
         url: "https://{{ lookup('file', '/var/run/ip_address') }}:4014"
-        endpoint: "http://{{ lookup('file', '/var/run/ip_address') }}:3333/https://{{ lookup('file', '/var/run/ip_address') }}:3014"
+        endpoint: "http://{{ lookup('file', '/var/run/ip_address') }}:3333/https://{{ lookup('file', '/var/run/ip_address') }}:4014"
         target: '_blank'
 
       - name: "LibreSpeed Test"
