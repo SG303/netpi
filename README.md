@@ -1,5 +1,3 @@
-
-
 <p align="center"><img src="./assets/netpi_logo_black.svg" alt="logo" width="250" /></p>
 <h1 align="center">Netpi</h1>
 <p align="center"><b>Simplify network diagnostic and troubleshooting with a Raspberry Pi powered toolkit</b></p> 
@@ -46,7 +44,11 @@ The Ansible playbook executes the following tasks:
 7. Copies all Docker Compose files into the newly created folder
 
 ## Configuration
-Before running the setup script, review and customize the config.yml file. This file contains essential configuration parameters for the installation process. Adjust the settings according to your personal preferences and requirements.
+Before running the setup script, copy the example configuration file and customize it:
+```
+cp example-config.yml config.yml
+```
+Then review and edit `config.yml` as needed. This file contains essential configuration parameters for the installation process. Adjust the settings according to your personal preferences and requirements.
 
 ## Installation Steps
 The script must be executed locally on the target host.
@@ -59,8 +61,9 @@ git clone https://github.com/SG303/netpi.git
 ```
 cd netpi
 ```
-3. If needed, change configuration parameter in the config file
+3. Copy the example configuration file and edit it:
 ```
+cp example-config.yml config.yml
 nano config.yml
 ```
 4. Make the *setup.sh* script executable
