@@ -3,10 +3,13 @@
   connection: local
   gather_facts: true
 
+  vars:
+    netpi_username: "{{ lookup('file', '/etc/netpi/username') | trim }}"
+
   tasks:
     - name: Copy a file with Jinja variables
       template:
-        src: "{{ repo_path | default('/home/' + ansible_env.SUDO_USER) }}/netpi/docker/homer/assets/config.yml"
+        src: "{{ repo_path | default('/home/' + netpi_username + '/netpi') }}/docker/homer/assets/config.yml"
         dest: "{{ data_path | default('/opt') }}/docker/homer/assets/config.yml"
 
     - name: Stop Homer
