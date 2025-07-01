@@ -68,6 +68,7 @@
           - nikto
           - speedtest-cli
           - iw
+          - aircrack-ng
         state: present
 
     - name: Install zsh
@@ -135,12 +136,28 @@
         groups: docker
         append: true
 
+    - name: Ensure /etc/netpi directory exists
+      file:
+        path: /etc/netpi
+        state: directory
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: Write username to /etc/netpi/username
+      copy:
+        content: "{{ ansible_user_id }}"
+        dest: /etc/netpi/username
+        owner: root
+        group: root
+        mode: '0644'
+
     - name: Create script to get IP address
       copy:
         dest: /usr/local/bin/get-ip-address
         content: |
           #!/bin/bash
-          ip -4 addr show eth0 | grep inet | awk '{ print $2; }' | sed 's/\/.*$//' > /var/run/ip_address
+          ip -4 addr show eth0 | grep inet | awk '{ print $2; }' | sed 's/\/.*$//' > /etc/netpi/ip_address
         owner: root
         group: root
         mode: '0755'
@@ -214,7 +231,7 @@
     - name: Write IP address to file
       copy:
         content: "{{ ansible_host }}"
-        dest: /var/run/ip_address
+        dest: /etc/netpi/ip_address
 
     - name: Copy files to destination directory
       copy:
@@ -319,7 +336,7 @@
     - name: Write dash_static_ip to a file
       ansible.builtin.copy:
         content: "{{ dash_static_ip }}"
-        dest: "/var/run/ip_address"
+        dest: "/etc/netpi/ip_address"
       when: not dash_auto_ip
 
     - name: Run copy homer dashboard script
