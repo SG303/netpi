@@ -9,7 +9,7 @@
   tasks:
     - name: Copy a file with Jinja variables
       template:
-        src: "{{ repo_path | default('/home/' + netpi_username + '/netpi') }}/docker/homer/assets/config.yml"
+        src: "{{ repo_path | default('/home/' + netpi_username + '/netpi') }}/docker/homer/assets/config.yml.j2"
         dest: "{{ data_path | default('/opt') }}/docker/homer/assets/config.yml"
 
     - name: Stop Homer
