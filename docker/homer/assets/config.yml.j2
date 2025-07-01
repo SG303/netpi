@@ -1,3 +1,4 @@
+{% set netpi_ip = lookup('file', '/etc/netpi/ip_address') | trim %}
 ---
 # Homepage configuration
 # See https://fontawesome.com/v5/search for icons options
@@ -75,24 +76,24 @@ services:
         logo: "assets/logos/dockge.png"
         type: Ping
         subtitle: "Docker container management"
-        url: "http://{{ lookup('file', '/var/run/ip_address') }}:3012"
-        endpoint: "http://{{ lookup('file', '/var/run/ip_address') }}:3333/http://{{ lookup('file', '/var/run/ip_address') }}:3012"
+        url: "http://{{ netpi_ip }}:3012"
+        endpoint: "http://{{ netpi_ip }}:3333/http://{{ netpi_ip }}:3012"
         target: '_blank'
 
       - name: "Cockpit"
         logo: "assets/logos/cockpit.png"
         type: Ping
         subtitle: "Web-based server management"
-        url: "https://{{ lookup('file', '/var/run/ip_address') }}:9090"
-        endpoint: "http://{{ lookup('file', '/var/run/ip_address') }}:3333/https://{{ lookup('file', '/var/run/ip_address') }}:9090"
+        url: "https://{{ netpi_ip }}:9090"
+        endpoint: "http://{{ netpi_ip }}:3333/https://{{ netpi_ip }}:9090"
         target: '_blank'
 
       - name: "Wetty"
         logo: "assets/logos/wetty.png"
         type: Ping
         subtitle: "SSH web-terminal"
-        url: "http://{{ lookup('file', '/var/run/ip_address') }}:4022/wetty"
-        endpoint: "http://{{ lookup('file', '/var/run/ip_address') }}:3333/http://{{ lookup('file', '/var/run/ip_address') }}:4022/wetty"
+        url: "http://{{ netpi_ip }}:4022/wetty"
+        endpoint: "http://{{ netpi_ip }}:3333/http://{{ netpi_ip }}:4022/wetty"
         target: '_blank'
 
   - name: "Monitoring and performance testing"
@@ -102,48 +103,48 @@ services:
         logo: "assets/logos/uptimekuma.png"
         type: Ping
         subtitle: "Monitoring tool"
-        url: "http://{{ lookup('file', '/var/run/ip_address') }}:3021"
-        endpoint: "http://{{ lookup('file', '/var/run/ip_address') }}:3333/http://{{ lookup('file', '/var/run/ip_address') }}:3021"
+        url: "http://{{ netpi_ip }}:3021"
+        endpoint: "http://{{ netpi_ip }}:3333/http://{{ netpi_ip }}:3021"
         target: '_blank'
 
       - name: "SmokePing"
         logo: "assets/logos/smokeping.png"
         type: Ping
         subtitle: "Network latency monitoring"
-        url: "http://{{ lookup('file', '/var/run/ip_address') }}:3017"
-        endpoint: "http://{{ lookup('file', '/var/run/ip_address') }}:3333/http://{{ lookup('file', '/var/run/ip_address') }}:3017"
+        url: "http://{{ netpi_ip }}:3017"
+        endpoint: "http://{{ netpi_ip }}:3333/http://{{ netpi_ip }}:3017"
         target: '_blank'
 
       - name: "Statping"
         logo: "assets/logos/statping.png"
         type: Ping
         subtitle: "Service health monitor"
-        url: "http://{{ lookup('file', '/var/run/ip_address') }}:3019"
-        endpoint: "http://{{ lookup('file', '/var/run/ip_address') }}:3333/http://{{ lookup('file', '/var/run/ip_address') }}:3019"
+        url: "http://{{ netpi_ip }}:3019"
+        endpoint: "http://{{ netpi_ip }}:3333/http://{{ netpi_ip }}:3019"
         target: '_blank'
 
       - name: "Open SpeedTest"
         logo: "assets/logos/openspeedtest.png"
         type: Ping
         subtitle: "Local network speed test"
-        url: "https://{{ lookup('file', '/var/run/ip_address') }}:4014"
-        endpoint: "http://{{ lookup('file', '/var/run/ip_address') }}:3333/https://{{ lookup('file', '/var/run/ip_address') }}:4014"
+        url: "https://{{ netpi_ip }}:4014"
+        endpoint: "http://{{ netpi_ip }}:3333/https://{{ netpi_ip }}:4014"
         target: '_blank'
 
       - name: "LibreSpeed Test"
         logo: "assets/logos/librespeedtest.svg"
         type: Ping
         subtitle: "Local network speed test"
-        url: "http://{{ lookup('file', '/var/run/ip_address') }}:3013"
-        endpoint: "http://{{ lookup('file', '/var/run/ip_address') }}:3333/http://{{ lookup('file', '/var/run/ip_address') }}:3013"
+        url: "http://{{ netpi_ip }}:3013"
+        endpoint: "http://{{ netpi_ip }}:3333/http://{{ netpi_ip }}:3013"
         target: '_blank'
 
       - name: "Speedtest Tracker"
         logo: "assets/logos/speedtest-tracker.png"
         type: Ping
         subtitle: "Internet speedtest perfomance tracker"
-        url: "http://{{ lookup('file', '/var/run/ip_address') }}:3018"
-        endpoint: "http://{{ lookup('file', '/var/run/ip_address') }}:3333/http://{{ lookup('file', '/var/run/ip_address') }}:3018"
+        url: "http://{{ netpi_ip }}:3018"
+        endpoint: "http://{{ netpi_ip }}:3333/http://{{ netpi_ip }}:3018"
         target: '_blank'
 
   - name: "Other Applications"
@@ -153,38 +154,38 @@ services:
         logo: "assets/logos/wireshark.png"
         type: Ping
         subtitle: "Network protocol analyzer"
-        url: "https://{{ lookup('file', '/var/run/ip_address') }}:3001"
-        endpoint: "http://{{ lookup('file', '/var/run/ip_address') }}:3333/http://{{ lookup('file', '/var/run/ip_address') }}:3000"
+        url: "https://{{ netpi_ip }}:3001"
+        endpoint: "http://{{ netpi_ip }}:3333/http://{{ netpi_ip }}:3000"
         target: '_blank'
 
       - name: "Pi-hole"
         logo: "assets/logos/pihole.png"
         type: Ping
         subtitle: "DNS and DHCP server"
-        url: "http://{{ lookup('file', '/var/run/ip_address') }}:3015"
-        endpoint: "http://{{ lookup('file', '/var/run/ip_address') }}:3333/http://{{ lookup('file', '/var/run/ip_address') }}:3015"
+        url: "http://{{ netpi_ip }}:3015"
+        endpoint: "http://{{ netpi_ip }}:3333/http://{{ netpi_ip }}:3015"
         target: '_blank'
 
       - name: "SFTPGo"
         logo: "assets/logos/sftpgo.png"
         type: Ping
         subtitle: "SFTP server"
-        url: "https://{{ lookup('file', '/var/run/ip_address') }}:3016"
-        endpoint: "http://{{ lookup('file', '/var/run/ip_address') }}:3333/https://{{ lookup('file', '/var/run/ip_address') }}:3016"
+        url: "https://{{ netpi_ip }}:3016"
+        endpoint: "http://{{ netpi_ip }}:3333/https://{{ netpi_ip }}:3016"
         target: '_blank'
 
       - name: "Chromium"
         logo: "assets/logos/chromium.svg"
         type: Ping
         subtitle: "Web browser"
-        url: "https://{{ lookup('file', '/var/run/ip_address') }}:4011"
-        endpoint: "http://{{ lookup('file', '/var/run/ip_address') }}:3333/https://{{ lookup('file', '/var/run/ip_address') }}:3011"
+        url: "https://{{ netpi_ip }}:4011"
+        endpoint: "http://{{ netpi_ip }}:3333/https://{{ netpi_ip }}:3011"
         target: '_blank'
 
       - name: "Syncthing"
         logo: "assets/logos/syncthing.png"
         type: Ping
         subtitle: "File synchronization"
-        url: "https://{{ lookup('file', '/var/run/ip_address') }}:4020"
-        endpoint: "http://{{ lookup('file', '/var/run/ip_address') }}:3333/https://{{ lookup('file', '/var/run/ip_address') }}:4020"
+        url: "https://{{ netpi_ip }}:4020"
+        endpoint: "http://{{ netpi_ip }}:3333/https://{{ netpi_ip }}:4020"
         target: '_blank'

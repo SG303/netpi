@@ -242,7 +242,7 @@
 
     - name: Copy Homer template
       template:
-        src: "{{ repo_path | default('/home/' + ansible_user_id) }}/netpi/docker/homer/assets/config.yml"
+        src: "{{ repo_path | default('/home/' + ansible_user_id) }}/netpi/docker/homer/assets/config.yml.j2"
         dest: "{{ data_path | default('/opt') }}/docker/homer/assets/config.yml"
         owner: "1000"
         group: "1000"
