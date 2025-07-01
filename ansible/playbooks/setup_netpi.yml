@@ -68,7 +68,7 @@
           - nikto
           - speedtest-cli
           - iw
-          - aircrack-ng
+#          - aircrack-ng
         state: present
 
     - name: Install zsh
