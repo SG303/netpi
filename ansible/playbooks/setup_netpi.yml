@@ -212,6 +212,13 @@
         state: started
       when: dash_auto_ip | bool
 
+    - name: Disable and stop get IP address service if dash_static_ip or dash_tailscale_ip is set
+      systemd:
+        name: get-ip-address
+        enabled: no
+        state: stopped
+      when: dash_static_ip | bool or dash_tailscale_ip | bool
+
     - name: Copy playbook
       copy:
         src: ./update_homer_dashboard.yml
