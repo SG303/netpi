@@ -7,7 +7,7 @@ services:
       - 4022:3000
     image: wettyoss/wetty
 {% if dash_auto_ip %}
-    command: --ssh-host={{ lookup('file', '/var/run/ip_address') }}
+    command: --ssh-host={{ lookup('file', '/etc/netpi/ip_address') }}
 {% else %}
     command: --ssh-host={{ dash_static_ip }}
 {% endif %}
