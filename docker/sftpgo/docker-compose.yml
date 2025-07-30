@@ -12,7 +12,7 @@ services:
     environment:
     SFTPGO_FTPD__BINDINGS__0__PORT: "2121"
 {% if dash_auto_ip %}
-    SFTPGO_FTPD__BINDINGS__0__FORCE_PASSIVE_IP: "{{ lookup('file', '/var/run/ip_address') }}"
+    SFTPGO_FTPD__BINDINGS__0__FORCE_PASSIVE_IP: "{{ lookup('file', '/etc/netpi/ip_address') }}"
 {% else %}
     SFTPGO_FTPD__BINDINGS__0__FORCE_PASSIVE_IP: "{{ dash_static_ip }}"
 {% endif %}
