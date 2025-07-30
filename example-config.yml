@@ -19,7 +19,8 @@ automatic_reboot: false     # Should the system automaticaly be rebootet if it i
 ## IP for dashboard
 #
 # Define if the ip for the dashboard tools should be automaticaly fetched from the system after every reboot
-# or staticly configured
+# or if it should be staticly configured. If you installed tailsale, you can also set the ip for the dashboard tools to the tailscale ip.
+# only one of the following three options should be set to true, the others should be empty.
 dash_auto_ip: true
-dash_static_ip:        # only set this if dash_auto_ip is equal to false. write ip address for example: 192.168.1.5
-
+dash_static_ip:       # write ip address in the following format: 192.168.1.5
+dash_tailscale_ip:  

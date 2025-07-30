@@ -163,6 +163,30 @@
         mode: '0755'
       when: dash_auto_ip | bool
 
+    - name: Check if tailscale0 interface exists
+      command: ip link show tailscale0
+      register: tailscale_iface
+      ignore_errors: true
+      when: dash_tailscale_ip | bool
+
+    - name: Fail if tailscale0 does not exist
+      fail:
+        msg: "The tailscale0 interface does not exist. Please install and configure Tailscale first."
+      when:
+        - dash_tailscale_ip | bool
+        - tailscale_iface.rc != 0
+
+    - name: Write Tailscale IP address to file
+      copy:
+        content: "ip -4 addr show tailscale0 | grep inet | awk '{ print $2; }' | sed 's/\/.*$//'"
+        dest: /etc/netpi/ip_address
+        owner: root
+        group: root
+        mode: '0644'
+      when:
+        - dash_tailscale_ip | bool
+        - tailscale_iface.rc == 0
+
     - name: Create systemd service to run script at boot
       copy:
         dest: /etc/systemd/system/get-ip-address.service
