@@ -368,7 +368,7 @@
       ansible.builtin.copy:
         content: "{{ dash_static_ip }}"
         dest: "/etc/netpi/ip_address"
-      when: not dash_auto_ip
+      when: dash_static_ip | bool
 
     - name: Run copy homer dashboard script
       shell: /usr/local/bin/run-playbook
