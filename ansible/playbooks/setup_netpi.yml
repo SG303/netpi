@@ -185,7 +185,7 @@
 
     - name: Write Tailscale IP address to file
       copy:
-        content: "{{ tailscale_ip_out.stdout | regex_search('inet (\\d+\\.\\d+\\.\\d+\\.\\d+)', '\\1') }}"
+        content: "{{ (tailscale_ip_out.stdout | regex_search('inet (\\d+\\.\\d+\\.\\d+\\.\\d+)', '\\1')) | first }}"
         dest: /etc/netpi/ip_address
         owner: root
         group: root
