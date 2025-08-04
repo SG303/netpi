@@ -175,10 +175,17 @@
       when:
         - dash_tailscale_ip | bool
         - tailscale_iface.rc != 0
+    
+    - name: Get Tailscale IP address
+      command: "ip -4 addr show tailscale0 | grep inet | awk '{ print $2; }' | sed 's/\/.*$//'"
+      register: tailscale_ip_out
+      when:
+        - dash_tailscale_ip | bool
+        - tailscale_iface.rc == 0
 
     - name: Write Tailscale IP address to file
       copy:
-        content: "ip -4 addr show tailscale0 | grep inet | awk '{ print $2; }' | sed 's/\/.*$//'"
+        content: "{{ tailscale_ip_out.stdout }}"
         dest: /etc/netpi/ip_address
         owner: root
         group: root
@@ -259,10 +266,10 @@
         state: started
       when: dash_auto_ip | bool
 
-    - name: Write IP address to file
-      copy:
-        content: "{{ ansible_host }}"
-        dest: /etc/netpi/ip_address
+    # - name: Write IP address to file
+      # copy:
+        # content: "{{ ansible_host }}"
+        # dest: /etc/netpi/ip_address
 
     - name: Copy files to destination directory
       copy:
