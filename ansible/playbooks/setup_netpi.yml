@@ -177,7 +177,7 @@
         - tailscale_iface.rc != 0
     
     - name: Get Tailscale IP address
-      command: "ip -4 addr show tailscale0 | grep inet | awk '{ print $2; }' | sed 's/\/.*$//'"
+      command: ip -4 addr show tailscale0
       register: tailscale_ip_out
       when:
         - dash_tailscale_ip | bool
@@ -185,7 +185,7 @@
 
     - name: Write Tailscale IP address to file
       copy:
-        content: "{{ tailscale_ip_out.stdout }}"
+        content: "{{ tailscale_ip_out.stdout | regex_search('inet (\\d+\\.\\d+\\.\\d+\\.\\d+)') }}"
         dest: /etc/netpi/ip_address
         owner: root
         group: root
