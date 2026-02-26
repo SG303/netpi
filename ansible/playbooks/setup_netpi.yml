@@ -157,7 +157,14 @@
         dest: /usr/local/bin/get-ip-address
         content: |
           #!/bin/bash
-          ip -4 addr show eth0 | grep inet | awk '{ print $2; }' | sed 's/\/.*$//' > /etc/netpi/ip_address
+          # Auto-detect the interface used for default route
+          INTERFACE=$(ip -4 route get 1.1.1.1 2>/dev/null | grep -oP 'dev \K\S+' | head -1)
+          if [ -n "$INTERFACE" ]; then
+            ip -4 addr show "$INTERFACE" | grep inet | awk '{ print $2; }' | sed 's/\/.*$//' > /etc/netpi/ip_address
+          else
+            # Fallback: try eth0
+            ip -4 addr show eth0 | grep inet | awk '{ print $2; }' | sed 's/\/.*$//' > /etc/netpi/ip_address
+          fi
         owner: root
         group: root
         mode: '0755'
