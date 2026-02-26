@@ -1,0 +1,25 @@
+---
+services:
+  ntopng:
+    image: ntop/ntopng_arm64.dev:latest
+    container_name: ntopng
+    restart: unless-stopped
+    command: --community
+    volumes:
+      - ntopng_data:/var/lib/ntopng
+    ports:
+      - 3000:3000
+    network_mode: host
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:alpine
+    container_name: ntopng-redis
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+
+volumes:
+  ntopng_data:
+  redis_data:
