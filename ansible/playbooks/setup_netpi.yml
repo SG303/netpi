@@ -68,6 +68,19 @@
           - nikto
           - speedtest-cli
           - iw
+          # New network tools
+          - vnstat
+          - nload
+          - gping
+          - httpie
+          - prettyping
+          - mitmproxy
+          - python3-scapy
+          - snmp
+          - snmpd
+          - termshark
+          - lldpd
+          - socat
 #          - aircrack-ng
         state: present
 

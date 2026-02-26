@@ -91,6 +91,39 @@ An open-source web server scanner that tests web servers for dangerous files/CGI
 ## [speedtest-cli](https://github.com/sivel/speedtest-cli)
 Command-line interface for testing internet bandwidth using speedtest.net's infrastructure.
 
+## [vnstat](https://humdi.net/vnstat/)
+A console-based network traffic monitor that logs traffic over time, providing statistics for hourly, daily, monthly, and yearly periods.
+
+## [nload](https://github.com/rolandriegel/nload)
+Realtime console network usage monitor showing incoming and outgoing traffic separately.
+
+## [gping](https://github.com/orf/gping)
+Ping, but with a graph. Visualizes ping latency over time in the terminal.
+
+## [httpie](https://httpie.io/)
+A modern, user-friendly command-line HTTP client for the API era. Alternative to curl with better UX.
+
+## [prettyping](https://github.com/denilsonsa/prettyping)
+A better ping tool that adds real-time graphing and statistics to standard ping output.
+
+## [mitmproxy](https://mitmproxy.org/)
+An interactive, SSL-capable man-in-the-middle HTTP proxy for traffic analysis and debugging.
+
+## [scapy](https://scapy.net/)
+A powerful Python-based packet manipulation program that can forge, decode, and analyze network packets.
+
+## [snmp](http://www.net-snmp.org/)
+Simple Network Management Protocol tools for monitoring and managing network devices.
+
+## [termshark](https://github.com/gcla/termshark)
+A terminal UI for tshark, inspired by Wireshark. Browse packet captures with keyboard navigation.
+
+## [lldpd](https://lldpd.github.io/)
+Implementation of IEEE 802.1ab (LLDP) for network topology discovery and neighbor identification.
+
+## [socat](http://www.dest-unreach.org/socat/)
+A multipurpose relay for bidirectional data transfer between addresses. Like netcat on steroids.
+
 # Web-Tools
 ## [Cockpit](https://cockpit-project.org/)
 A web-based interface for managing servers, offering features like system monitoring and administration.
