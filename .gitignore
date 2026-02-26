@@ -1,2 +1,22 @@
-# Ignore user-specific configuration
+# User configuration (may contain secrets)
 config.yml
+
+# Logs
+*.log
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Ansible
+*.retry
+
+# Temporary files
+*.tmp
+*.temp
