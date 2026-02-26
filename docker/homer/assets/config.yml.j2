@@ -99,6 +99,14 @@ services:
   - name: "Monitoring and performance testing"
     icon: "fas fa-eye"
     items:
+      - name: "ntopng"
+        logo: "assets/logos/ntopng.png"
+        type: Ping
+        subtitle: "Network traffic analysis"
+        url: "http://{{ netpi_ip }}:3000"
+        endpoint: "http://{{ netpi_ip }}:3333/http://{{ netpi_ip }}:3000"
+        target: '_blank'
+
       - name: "Uptime Kuma"
         logo: "assets/logos/uptimekuma.png"
         type: Ping

@@ -174,3 +174,6 @@ Wireshark is a network protocol analyzer used for network troubleshooting, analy
 
 ## [Pi-hole](https://pi-hole.net)
 Pi-hole is a network-wide ad blocker that can block ads in non-traditional places such as mobile apps and smart TVs by acting as a DNS sinkhole.
+
+## [ntopng](https://www.ntopng.org/)
+High-Speed Web-based Traffic Analysis and Flow Collection. Provides real-time network traffic monitoring, protocol analysis, and host detection through a web interface.
