@@ -28,8 +28,8 @@ A simple utility for calculating IP information for subnets.
 ## [ncat](https://nmap.org/ncat/)
 A feature-packed networking utility which reads and writes data across networks from the command line.
 
-## [dnsutils](https://www.isc.org/bind/)
-A collection of utilities to query DNS servers about host addresses, mail exchanges, name servers, etc.
+## [bind9-dnsutils](https://www.isc.org/bind/)
+A collection of utilities to query DNS servers about host addresses, mail exchanges, name servers, etc. (formerly packaged as dnsutils).
 
 ## [iptraf-ng](https://github.com/iptraf-ng/iptraf-ng)
 A console-based network monitoring program that displays information about IP traffic on a network.
