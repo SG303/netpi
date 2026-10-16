@@ -317,6 +317,13 @@
         owner: "1000"
         group: "1000"
 
+    - name: Copy CORSair template
+      template:
+        src: "{{ repo_path | default('/home/' + ansible_user_id) }}/netpi/docker/homer/corsair/config.yaml.j2"
+        dest: "{{ data_path | default('/opt') }}/docker/homer/corsair/config.yaml"
+        owner: "1000"
+        group: "1000"
+
     - name: Install oh-my-zsh
       shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh) --unattended"
       args:
