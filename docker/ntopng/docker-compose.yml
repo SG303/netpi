@@ -4,7 +4,12 @@ services:
     image: ntop/ntopng_arm64.dev:latest
     container_name: ntopng
     restart: unless-stopped
-    command: --community -w 3010
+    # -i eth0: capture traffic from the host interface (network_mode: host)
+    # -w 3010: web UI port (3000 is already in use)
+    command: --community -i eth0 -w 3010
+    cap_add:
+      - NET_ADMIN # required for promiscuous mode on the captured interface
+      - NET_RAW # required for packet capture
     volumes:
       - ntopng_data:/var/lib/ntopng
     network_mode: host
@@ -15,6 +20,11 @@ services:
     image: redis:alpine
     container_name: ntopng-redis
     restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    # ntopng (host network) connects to redis via localhost:6379,
+    # so the port is published to loopback only
+    ports:
+      - "127.0.0.1:6379:6379"
     volumes:
       - redis_data:/data
 
