@@ -1,0 +1,50 @@
+{% set netpi_ip = lookup('file', '/etc/netpi/ip_address') | trim %}
+# CORSair configuration for the Homer dashboard status checks.
+# Rendered by Ansible from config.yaml.j2 (setup_netpi.yml and update_homer_dashboard.yml),
+# so the endpoints always point at the current host IP.
+server:
+  address: "0.0.0.0"              # bind inside the container
+  port: 8080
+  forward_endpoint_enabled: false # no generic forwarding, only the whitelisted endpoints below
+  default_timeout: "10s"
+
+logging:
+  level: info
+  format: text
+
+cors:
+  allow_origins: ["*"]            # dashboard is served from http://<netpi-ip>:80
+  allow_methods: "GET, OPTIONS"
+  allow_headers: "*"
+  allow_credentials: false
+
+endpoints:
+  - path: /dockge
+    remote_url: "http://{{ netpi_ip }}:3012"
+  # Note: CORSair validates upstream TLS certificates. HTTPS endpoints with a
+  # self-signed certificate for the raw IP (e.g. Cockpit) return 502 and the
+  # Homer card shows offline.
+  - path: /cockpit
+    remote_url: "https://{{ netpi_ip }}:9090"
+  - path: /wetty
+    remote_url: "http://{{ netpi_ip }}:4022"
+  - path: /uptime-kuma
+    remote_url: "http://{{ netpi_ip }}:3021"
+  - path: /smokeping
+    remote_url: "http://{{ netpi_ip }}:3017"
+  - path: /openspeedtest
+    remote_url: "http://{{ netpi_ip }}:3014"
+  - path: /librespeed
+    remote_url: "http://{{ netpi_ip }}:3013"
+  - path: /speedtest-tracker
+    remote_url: "http://{{ netpi_ip }}:3018"
+  - path: /wireshark
+    remote_url: "http://{{ netpi_ip }}:3000"
+  - path: /pihole
+    remote_url: "http://{{ netpi_ip }}:3015"
+  - path: /sftpgo
+    remote_url: "http://{{ netpi_ip }}:3016"
+  - path: /chromium
+    remote_url: "http://{{ netpi_ip }}:3011"
+  - path: /syncthing
+    remote_url: "http://{{ netpi_ip }}:4020"

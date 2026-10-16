@@ -11,9 +11,12 @@ services:
     user: 1000:1000 # default
     environment:
       - INIT_ASSETS=0 # default
-  cors-anywhere:
-    image: ghcr.io/sg303/docker-cors-anywhere/cors-anywhere:latest
+  # CORSair provides the CORS proxy used by the Homer status checks.
+  # Its configuration is rendered from corsair/config.yaml.j2 by Ansible.
+  corsair:
+    image: b4bz/corsair:latest
     restart: unless-stopped
     ports:
-      - 3333:3333
-  
+      - 3333:8080
+    volumes:
+      - ./corsair/:/etc/corsair/
