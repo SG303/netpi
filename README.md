@@ -90,7 +90,7 @@ For instructions on using the individual tools, please refer to their respective
 
 # Contributing
 
-Contributions to enhance Nepi's functionality and usability are welcome. To contribute, please follow these steps:
+Contributions to enhance Netpi's functionality and usability are welcome. To contribute, please follow these steps:
 1. Fork the repository
 2. Create a new branch for your feature or bug fix
 3. Commit your changes and push the branch to your fork
