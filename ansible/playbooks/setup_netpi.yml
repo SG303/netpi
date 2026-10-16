@@ -133,6 +133,18 @@
       when:
         - ansible_facts['architecture'] == "aarch64"
 
+    - name: Remove conflicting Ubuntu Docker packages
+      ansible.builtin.apt:
+        pkg:
+          - docker.io
+          - docker-doc
+          - docker-compose
+          - docker-compose-v2
+          - podman-docker
+          - containerd
+          - runc
+        state: absent
+
     - name: Install docker packages
       apt:
         pkg:
