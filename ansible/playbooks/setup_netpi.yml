@@ -46,7 +46,7 @@
           - tcpdump
           - ipcalc
           - ncat
-          - dnsutils
+          - bind9-dnsutils
           - iptraf-ng
           - arp-scan
           - hping3
@@ -64,7 +64,7 @@
           - bmon
           - darkstat
           - jnettop
-          - dstat
+          - pcp # provides dstat (pcp-dstat) on Ubuntu 24.04+
           - nikto
           - speedtest-cli
           - iw

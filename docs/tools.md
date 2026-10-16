@@ -84,7 +84,7 @@ Displays real-time traffic information about the hosts seen on your network.
 
 ## [dstat](https://linux.die.net/man/1/dstat)
 Combines the functionality of vmstat, iostat, netstat, and ifstat into one easy-to-use tool for performance monitoring.
-On current Ubuntu releases (24.04+) dstat is a virtual package provided by the Performance Co-Pilot (pcp) project, so installing dstat pulls in pcp.
+On Ubuntu 24.04+ the original dstat package no longer exists; Netpi therefore installs the Performance Co-Pilot (pcp) package, which provides dstat as pcp-dstat.
 
 ## [chrony](https://chrony-project.org/)
 A versatile NTP implementation used to synchronize the system clock. It replaces the deprecated ntp package on current Ubuntu releases.
