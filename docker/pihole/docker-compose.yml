@@ -5,12 +5,12 @@ services:
     network_mode: host
     environment:
    #   TZ: 'Etc/UTC'
-      WEBPASSWORD: 'password'
-      WEB_PORT: '3015'
-      DNSMASQ_LISTENING: 'all'
+      # Pi-hole v6 configuration (v5 variables like WEBPASSWORD / WEB_PORT are no longer supported)
+      FTLCONF_webserver_api_password: 'password'
+      FTLCONF_webserver_port: '3015'
+      FTLCONF_dns_listeningMode: 'all'
     volumes:
       - './etc-pihole:/etc/pihole'
-      - './etc-dnsmasq.d:/etc/dnsmasq.d'
     cap_add:
       - NET_ADMIN
     restart: unless-stopped

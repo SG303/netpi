@@ -1,41 +1,50 @@
 ---
 services:
   mongodb:
-    image: mongo:5.0.13
+    image: mongo:7.0
     volumes:
       - mongo_data:/data/db
+    restart: unless-stopped
 
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.10.2
+  opensearch:
+    image: opensearchproject/opensearch:2.19.6
     volumes:
-      - es_data:/usr/share/elasticsearch/data
+      - os_data:/usr/share/opensearch/data
     environment:
-      - http.host=0.0.0.0
-      - transport.host=localhost
-      - network.host=0.0.0.0
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m
+      - bootstrap.memory_lock=true
+      - discovery.type=single-node
+      - action.auto_create_index=false
+      - plugins.security.ssl.http.enabled=false
+      - plugins.security.disabled=true
+      # Change this password before first start!
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=ChangeMe_2026!
     ulimits:
       memlock:
         soft: -1
         hard: -1
-      mem_limit: 1g
+      nofile:
+        soft: 65536
+        hard: 65536
+    restart: unless-stopped
 
   graylog:
-    image: graylog/graylog:5.2
+    image: graylog/graylog:6.3
     volumes:
       - graylog_data:/usr/share/graylog/data
     environment:
+      # CHANGE ME (must be at least 16 characters)!
       - GRAYLOG_PASSWORD_SECRET=somepasswordpepper
+      # Password for the default "admin" user is "admin". Change it!
       - GRAYLOG_ROOT_PASSWORD_SHA2=8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
       - GRAYLOG_HTTP_EXTERNAL_URI=http://127.0.0.1:9000/
-    entrypoint: /usr/bin/tini -- wait-for-it elasticsearch:9200 --  /docker-entrypoint.sh
-    links:
-      - mongodb:mongo
-      - elasticsearch
-    restart: always
+      - GRAYLOG_ELASTICSEARCH_HOSTS=http://opensearch:9200
+      - GRAYLOG_MONGODB_URI=mongodb://mongodb:27017/graylog
+    entrypoint: /usr/bin/tini -- wait-for-it opensearch:9200 --  /docker-entrypoint.sh
     depends_on:
       - mongodb
-      - elasticsearch
+      - opensearch
+    restart: always
     ports:
       - "9000:9000"
       - "1514:1514"
@@ -46,7 +55,7 @@ services:
 volumes:
   mongo_data:
     driver: local
-  es_data:
+  os_data:
     driver: local
   graylog_data:
     driver: local

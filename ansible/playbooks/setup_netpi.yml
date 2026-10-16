@@ -37,7 +37,7 @@
           - curl
           - wget
           - sudo
-          - ntp
+          - chrony
           - unattended-upgrades
           - cockpit
           - nmap

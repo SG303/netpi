@@ -84,6 +84,10 @@ Displays real-time traffic information about the hosts seen on your network.
 
 ## [dstat](https://linux.die.net/man/1/dstat)
 Combines the functionality of vmstat, iostat, netstat, and ifstat into one easy-to-use tool for performance monitoring.
+On current Ubuntu releases (24.04+) dstat is a virtual package provided by the Performance Co-Pilot (pcp) project, so installing dstat pulls in pcp.
+
+## [chrony](https://chrony-project.org/)
+A versatile NTP implementation used to synchronize the system clock. It replaces the deprecated ntp package on current Ubuntu releases.
 
 ## [nikto](https://github.com/sullo/nikto)
 An open-source web server scanner that tests web servers for dangerous files/CGIs, outdated server software, and other issues.
@@ -155,7 +159,7 @@ SmokePing is a latency measurement tool that can measure, store, and display lat
 Speedtest Tracker is a self-hosted internet performance tracking application that runs speed tests using Ookla's Speedtest service.
 
 ## [Statping](https://github.com/statping/statping)
-Statping is a status page service for monitoring websites and applications, providing notifications when services are down.
+Statping was a status page service for monitoring websites and applications. Upstream development stopped in 2021 and the tool is no longer shipped with Netpi; use Uptime Kuma instead.
 
 ## [Syncthing](https://syncthing.net)
 Syncthing is a continuous file synchronization program that synchronizes files between two or more computers in real-time.
