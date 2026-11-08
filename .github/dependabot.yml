@@ -1,0 +1,25 @@
+version: 2
+updates:
+  - package-ecosystem: "docker-compose"
+    directories:
+      - "/docker/*"
+    schedule:
+      interval: "weekly"
+    ignore:
+      # Graylog 7.0/7.1 support at most OpenSearch 2.19.6. Graylog 7.2 supports
+      # 3.x only up to 3.7.x, and the 3.x upgrade is one-way. Upgrade manually.
+      - dependency-name: "opensearchproject/opensearch"
+        update-types: ["version-update:semver-major"]
+      # Graylog 7.x supports MongoDB 7.x to 8.2.x. Upgrade manually
+      # (feature compatibility version step).
+      - dependency-name: "mongo"
+        update-types: ["version-update:semver-major"]
+      # Graylog majors need upgrade notes reviewed; minor bumps are proposed
+      # one step at a time, which matches Graylog's upgrade path.
+      - dependency-name: "graylog/graylog"
+        update-types: ["version-update:semver-major"]
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"

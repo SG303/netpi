@@ -1,7 +1,7 @@
 ---
 services:
   some-sftpgo:
-    image: drakkan/sftpgo:latest
+    image: drakkan/sftpgo:v2
     container_name: sftpgo
     restart: unless-stopped
     ports:
