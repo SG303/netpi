@@ -88,6 +88,54 @@ The Docker containers work out of the box. Depending on the use case, some chang
 
 For instructions on using the individual tools, please refer to their respective project documentation.
 
+## Graylog
+
+### Credentials
+Graylog's secrets are not stored in the repository. On the first run, the setup playbook generates them and writes them to `/opt/docker/graylog/.env` (mode `0600`):
+
+- `GRAYLOG_PASSWORD_SECRET`: a random 96-character pepper
+- `GRAYLOG_ROOT_PASSWORD_SHA2`: the SHA256 hash of a random password for the `admin` user
+- `OPENSEARCH_INITIAL_ADMIN_PASSWORD`: required by the OpenSearch image. It is not used for logins because the OpenSearch security plugin is disabled.
+
+The playbook never overwrites an existing `.env`, so running it again keeps your secrets.
+
+To show the `admin` password:
+```
+sudo cat /etc/netpi/graylog_admin_password
+```
+
+To change the `admin` password:
+```
+cd /opt/docker/graylog
+NEW_HASH=$(read -rsp 'New password: ' pw; echo -n "$pw" | sha256sum | cut -d' ' -f1)
+sed -i "s/^GRAYLOG_ROOT_PASSWORD_SHA2=.*/GRAYLOG_ROOT_PASSWORD_SHA2=$NEW_HASH/" .env
+docker compose up -d
+```
+After the change, `/etc/netpi/graylog_admin_password` no longer matches. Delete it, or update it yourself.
+
+Do not change `GRAYLOG_PASSWORD_SECRET` after the first start. Graylog uses it to encrypt stored secrets, such as input credentials.
+
+To set up Graylog by hand without the playbook, copy `docker/graylog/.env.example` to `.env` and fill in the values. The comments in the file explain how to generate each one.
+
+### Upgrading existing installations (Graylog 6.3 → 7.2)
+Existing installations that ran Graylog before this change used the insecure defaults (`admin`/`admin` and the placeholder secret). Do the following steps by hand on such a host:
+
+1. Back up the Docker volumes (`mongo_data`, `os_data`, `graylog_data`).
+2. Create `/opt/docker/graylog/.env` before you run the playbook again. Otherwise the playbook generates a new `GRAYLOG_PASSWORD_SECRET`, and secrets encrypted with the old value (such as input credentials) can no longer be read. You have two options:
+   - Keep `GRAYLOG_PASSWORD_SECRET=somepasswordpepper` and set a new `GRAYLOG_ROOT_PASSWORD_SHA2`. Nothing breaks, but the pepper stays weak.
+   - Set a new random secret and re-enter any input credentials afterwards.
+3. Upgrade through every minor version, as Graylog requires. Change the `graylog/graylog` tag in `docker-compose.yml` step by step, run `docker compose up -d` each time, and wait until Graylog is fully up before you start the next step:
+   `6.3` → `7.0` → `7.1` → `7.2`
+4. Keep MongoDB 7.0 and OpenSearch 2.19.6. Graylog 7.0, 7.1 and 7.2 all support both. Graylog 7.0 and 7.1 do not support OpenSearch 3.x. Graylog 7.2 supports OpenSearch up to 3.7.x, but that upgrade is one-way, and it is only possible if no index was created before OpenSearch 2.0.
+
+See the [Graylog upgrade guide](https://go2docs.graylog.org/current/upgrading_graylog/upgrading_graylog.html) and the [compatibility matrix](https://go2docs.graylog.org/current/downloading_and_installing_graylog/compatibility_matrix.htm).
+
+## Uptime Kuma 2
+Uptime Kuma is now pinned to major version `2`. Before this change, the `latest` tag still pointed to version 1. When an existing version 1 installation starts version 2 for the first time, Uptime Kuma migrates the database. With a lot of monitoring history, this can take a while. Do not stop the container during the migration. You cannot go back to version 1 afterwards, so back up `./data` first.
+
+## Image versions
+Images are pinned to a major version wherever the image publishes one. Dependabot (`.github/dependabot.yml`) suggests updates every week. Some images still use `latest` because they do not publish major-version tags: the linuxserver.io images, Pi-hole, Homer, CORSair, OpenSpeedTest and ntopng.
+
 # Contributing
 
 Contributions to enhance Netpi's functionality and usability are welcome. To contribute, please follow these steps:
