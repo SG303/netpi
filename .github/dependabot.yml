@@ -1,10 +1,23 @@
+# Dependabot config (SG303 baseline v1). Weekly on Sunday evening, minor and
+# patch updates grouped into one PR per ecosystem and merged automatically by
+# dependabot-auto-merge.yml once the checks pass. Majors come as separate PRs.
+# The 7-day cooldown skips versions younger than a week; security updates are
+# not delayed.
 version: 2
 updates:
-  - package-ecosystem: "docker-compose"
+  - package-ecosystem: docker-compose
     directories:
       - "/docker/*"
     schedule:
-      interval: "weekly"
+      interval: weekly
+      day: sunday
+      time: "22:00"
+      timezone: Europe/Zurich
+    cooldown:
+      default-days: 7
+    groups:
+      images:
+        update-types: [minor, patch]
     ignore:
       # Graylog 7.0/7.1 support at most OpenSearch 2.19.6. Graylog 7.2 supports
       # 3.x only up to 3.7.x, and the 3.x upgrade is one-way. Upgrade manually.
@@ -18,3 +31,16 @@ updates:
       # one step at a time, which matches Graylog's upgrade path.
       - dependency-name: "graylog/graylog"
         update-types: ["version-update:semver-major"]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: sunday
+      time: "22:00"
+      timezone: Europe/Zurich
+    cooldown:
+      default-days: 7
+    groups:
+      actions:
+        update-types: [minor, patch]

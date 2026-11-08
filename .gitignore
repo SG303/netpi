@@ -23,3 +23,5 @@ Thumbs.db
 
 # Environment files with secrets (templates are named .env.example)
 .env
+.env.*
+!.env.example
