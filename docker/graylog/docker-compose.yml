@@ -7,7 +7,7 @@ services:
     restart: unless-stopped
 
   opensearch:
-    image: opensearchproject/opensearch:2.19.6
+    image: opensearchproject/opensearch:2.19.7
     volumes:
       - os_data:/usr/share/opensearch/data
     environment:
