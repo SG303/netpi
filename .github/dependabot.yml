@@ -18,8 +18,3 @@ updates:
       # one step at a time, which matches Graylog's upgrade path.
       - dependency-name: "graylog/graylog"
         update-types: ["version-update:semver-major"]
-
-  - package-ecosystem: "github-actions"
-    directory: "/"
-    schedule:
-      interval: "weekly"
