@@ -1,0 +1,52 @@
+# Lints the shell scripts and validates the compose files (SG303 baseline v1).
+# Make the "lint" job a required check in the ruleset.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: shellcheck
+        run: git ls-files -z '*.sh' | xargs -0 shellcheck
+      - name: shfmt
+        uses: docker://mvdan/shfmt:v3.14.1@sha256:8c06884a35683d8763fba6c0d9484d11a61a96da65f8d497d6f625825a6043f2
+        with:
+          args: -d .
+      - name: Validate compose files
+        # Files with "{{" are Ansible templates, rendered by the playbook
+        # before use; they are not valid compose files on their own.
+        run: |
+          status=0
+          for file in docker/*/docker-compose.yml; do
+            if grep -q '{{' "$file"; then
+              echo "skip $file (Ansible template)"
+              continue
+            fi
+            dir=$(dirname "$file")
+            args=()
+            if [[ -f $dir/.env.example ]]; then
+              args=(--env-file "$dir/.env.example")
+            fi
+            if docker compose -f "$file" "${args[@]}" config --quiet; then
+              echo "ok   $file"
+            else
+              echo "::error file=$file::invalid compose file"
+              status=1
+            fi
+          done
+          exit "$status"
