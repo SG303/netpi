@@ -5,7 +5,7 @@ into a network troubleshooting toolkit: CLI tools plus Docker services
 (Graylog, Pi-hole, Uptime Kuma, Smokeping, ntopng, Wireshark, …) behind a
 Homer dashboard. I deploy it myself on my own hosts. Public repo.
 
-Follows the SG303 baseline v1 (`sgstack/global/AGENTS.md`,
+Follows the SG303 baseline v2 (`sgstack/global/AGENTS.md`,
 `sgstack/baseline/tools.md`). If you cannot read those: work on a branch,
 open a PR, merge only with green checks (squash); never commit secrets or
 personal data; English for everything in the repo; talk to me in German.
