@@ -2,6 +2,9 @@
 <h1 align="center">Netpi</h1>
 <p align="center"><b>Simplify network diagnostic and troubleshooting with a Raspberry Pi powered toolkit</b></p> 
 
+> [!NOTE]
+> Personal project, built with AI coding agents under my supervision. Review the code carefully before you use it.
+
 ![dashboard](assets/dashboard.png)
 
 # Table of Contents
@@ -146,3 +149,9 @@ Contributions to enhance Netpi's functionality and usability are welcome. To con
 
 # Acknowledgments
 Thanks go to the open-source community for developing and maintaining [the incredible tools and utilities](docs/tools.md) that make Netpi possible.
+
+# Status
+
+Personal project, built with AI coding agents under my supervision. There is
+no support and no stability guarantee; review the code carefully before you
+rely on it. See [LICENSE](LICENSE) for the warranty terms.
