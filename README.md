@@ -7,7 +7,7 @@
 
 ![dashboard](assets/dashboard.png)
 
-# Table of Contents
+## Table of Contents
 
 - [Purpose](#purpose)
 - [Requirements](#requirements)
@@ -16,10 +16,10 @@
 - [Contributing](#contributing)
 - [Acknowledgments](#acknowledgments)
 
-# Purpose
+## Purpose
 Netpi is an Ansible based automation script designed to simplify the installation of essential network troubleshooting tools on Ubuntu Linux hosts. Intended for Raspberry Pi's, Netpi provides a [comprehensive suite](docs/tools.md) of CLI tools and Docker containers, all accessible through a custom dashboard, making network diagnostics and troubleshooting efficient and user-friendly.
 
-# Requirements
+## Requirements
 The Raspberry Pi served as the inspiration for this project due to its compact form factor and widespread adoption. However, the project can be installed on any host running Ubuntu.
 The project has been tested and verified on the following Raspberry Pi model and Ubuntu versions:
 
@@ -30,7 +30,7 @@ Ubuntu:
 - Ubuntu Server 22.04 LTS
 - Ubuntu Server 24.04 LTS
 
-# Installation
+## Installation
 The installation script performs the following actions:
 
 1. Installs Ansible from the official PPA
@@ -46,14 +46,14 @@ The Ansible playbook executes the following tasks:
 6. Creates a folder for Docker services under /opt
 7. Copies all Docker Compose files into the newly created folder
 
-## Configuration
+### Configuration
 Before running the setup script, copy the example configuration file and customize it:
 ```
 cp example-config.yml config.yml
 ```
 Then review and edit `config.yml` as needed. This file contains essential configuration parameters for the installation process. Adjust the settings according to your personal preferences and requirements.
 
-## Installation Steps
+### Installation Steps
 The script must be executed locally on the target host.
 
 1. Clone the Netpi repository to the target host:
@@ -80,7 +80,7 @@ chmod +x setup.sh
 6. Once the playbook execution is complete, access the Netpi dashboard by navigating to your Raspberry Pi's IP address in a web browser. The dashboard is running on http port 80.
 
 
-# Usage
+## Usage
 The Docker container services can be accessed via the dashboard. By default, only the dashboard and Dockge container are initially started. Dockge is a Docker container management software. Additional containers can be launched either through Dockge or directly via the command-line interface.
 
 The installed CLI tools can be used normally through the host's command line. Additionally, the web-based terminal tool "Wetty," which is accessible from the dashboard, allows direct access to the host's CLI through a web browser.
@@ -91,9 +91,9 @@ The Docker containers work out of the box. Depending on the use case, some chang
 
 For instructions on using the individual tools, please refer to their respective project documentation.
 
-## Graylog
+### Graylog
 
-### Credentials
+#### Credentials
 Graylog's secrets are not stored in the repository. On the first run, the setup playbook generates them and writes them to `/opt/docker/graylog/.env` (mode `0600`):
 
 - `GRAYLOG_PASSWORD_SECRET`: a random 96-character pepper
@@ -120,7 +120,7 @@ Do not change `GRAYLOG_PASSWORD_SECRET` after the first start. Graylog uses it t
 
 To set up Graylog by hand without the playbook, copy `docker/graylog/.env.example` to `.env` and fill in the values. The comments in the file explain how to generate each one.
 
-### Upgrading existing installations (Graylog 6.3 → 7.2)
+#### Upgrading existing installations (Graylog 6.3 → 7.2)
 Existing installations that ran Graylog before this change used the insecure defaults (`admin`/`admin` and the placeholder secret). Do the following steps by hand on such a host:
 
 1. Back up the Docker volumes (`mongo_data`, `os_data`, `graylog_data`).
@@ -133,13 +133,13 @@ Existing installations that ran Graylog before this change used the insecure def
 
 See the [Graylog upgrade guide](https://go2docs.graylog.org/current/upgrading_graylog/upgrading_graylog.html) and the [compatibility matrix](https://go2docs.graylog.org/current/downloading_and_installing_graylog/compatibility_matrix.htm).
 
-## Uptime Kuma 2
+### Uptime Kuma 2
 Uptime Kuma is now pinned to major version `2`. Before this change, the `latest` tag still pointed to version 1. When an existing version 1 installation starts version 2 for the first time, Uptime Kuma migrates the database. With a lot of monitoring history, this can take a while. Do not stop the container during the migration. You cannot go back to version 1 afterwards, so back up `./data` first.
 
-## Image versions
+### Image versions
 Images are pinned to a major version wherever the image publishes one. Dependabot (`.github/dependabot.yml`) suggests updates every week. Some images still use `latest` because they do not publish major-version tags: the linuxserver.io images, Pi-hole, Homer, CORSair, OpenSpeedTest and ntopng.
 
-# Contributing
+## Contributing
 
 Contributions to enhance Netpi's functionality and usability are welcome. To contribute, please follow these steps:
 1. Fork the repository
@@ -147,7 +147,7 @@ Contributions to enhance Netpi's functionality and usability are welcome. To con
 3. Commit your changes and push the branch to your fork
 4. Submit a pull request detailing your changes
 
-# Acknowledgments
+## Acknowledgments
 Thanks go to the open-source community for developing and maintaining [the incredible tools and utilities](docs/tools.md) that make Netpi possible.
 
 ## Status
