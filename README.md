@@ -150,7 +150,7 @@ Contributions to enhance Netpi's functionality and usability are welcome. To con
 # Acknowledgments
 Thanks go to the open-source community for developing and maintaining [the incredible tools and utilities](docs/tools.md) that make Netpi possible.
 
-# Status
+## Status
 
 Personal project, built with AI coding agents under my supervision. There is
 no support and no stability guarantee; review the code carefully before you
